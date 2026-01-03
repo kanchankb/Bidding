@@ -1,0 +1,1557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Auction - Bidding App</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .user-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 5px;
+        }
+
+        .header-left p {
+            color: #7f8c8d;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.active {
+            background: #2c3e50;
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            background: #2c3e50;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+        }
+
+        .user-avatar-large {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .user-details h3 {
+            margin-bottom: 5px;
+        }
+
+        .user-balance {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2ecc71;
+        }
+
+        /* Main Grid */
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Current Bid Section */
+        .current-bid-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .bid-label {
+            font-size: 18px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .bid-amount {
+            font-size: 72px;
+            font-weight: bold;
+            color: #2c3e50;
+            margin: 30px 0;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .current-bidder {
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+
+        .auction-timer {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .timer-label {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 10px;
+        }
+
+        .timer-display {
+            font-size: 32px;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+
+        /* Bidding Controls */
+        .bidding-controls {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .controls-title {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        /* Quick Buttons */
+        .quick-buttons {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 576px) {
+            .quick-buttons {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bid-btn {
+            padding: 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+
+        .bid-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(52, 152, 219, 0.3);
+        }
+
+        .bid-btn .amount {
+            font-size: 28px;
+        }
+
+        .bid-btn .label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        /* Custom Bid */
+        .custom-bid {
+            margin: 40px 0;
+        }
+
+        .custom-bid h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+        }
+
+        .custom-input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .currency-symbol {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .custom-bid-input {
+            flex: 1;
+            padding: 20px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: all 0.3s;
+        }
+
+        .custom-bid-input:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .place-bid-btn {
+            padding: 20px 40px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-width: 150px;
+        }
+
+        .place-bid-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .place-bid-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* User Stats */
+        .user-stats {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .stat-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: #7f8c8d;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-value.highlight {
+            color: #2ecc71;
+            font-size: 18px;
+        }
+
+        /* Registered Users Section */
+        .users-section {
+            grid-column: span 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            color: #2c3e50;
+            font-size: 28px;
+            margin: 0;
+        }
+
+        .refresh-btn {
+            padding: 10px 20px;
+            background: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .refresh-btn:hover {
+            background: #2980b9;
+            transform: translateY(-2px);
+        }
+
+        .users-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .users-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+        }
+
+        .user-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            border: 2px solid #f8f9fa;
+        }
+
+        .user-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            border-color: #3498db;
+        }
+
+        .user-card.active-bidder {
+            border-color: #2ecc71;
+            background: linear-gradient(to bottom right, #ffffff, #e8f5e9);
+        }
+
+        .user-card-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .user-card-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .user-card-info h4 {
+            color: #2c3e50;
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .user-card-id {
+            color: #7f8c8d;
+            font-size: 12px;
+        }
+
+        .user-card-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .user-stat {
+            text-align: center;
+            padding: 8px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .user-stat-label {
+            font-size: 11px;
+            color: #7f8c8d;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+
+        .user-stat-value {
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .user-card-balance {
+            text-align: center;
+            padding: 10px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .balance-label {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+        }
+
+        .balance-amount {
+            font-size: 18px;
+            font-weight: bold;
+            color: #27ae60;
+        }
+
+        .user-status {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .status-online {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-offline {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-bidding {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        /* Bids History */
+        .bids-history-section {
+            grid-column: span 2;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        @media (max-width: 992px) {
+            .bids-history-section {
+                grid-column: span 1;
+            }
+        }
+
+        .section-title {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        /* Bids List */
+        .bids-list {
+            max-height: 400px;
+            overflow-y: auto;
+            border: 2px solid #eee;
+            border-radius: 10px;
+        }
+
+        .bid-item-user {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            transition: all 0.3s;
+        }
+
+        @media (max-width: 768px) {
+            .bid-item-user {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+        }
+
+        .bid-item-user:hover {
+            background: #f8f9fa;
+        }
+
+        .bid-item-user.own-bid {
+            background: #e8f5e9;
+            border-left: 4px solid #2ecc71;
+        }
+
+        .bid-user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .bid-user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .bid-user-name {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .bid-amount-user {
+            font-weight: bold;
+            color: #27ae60;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bid-increment {
+            font-size: 12px;
+            color: #7f8c8d;
+            background: #eee;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .bid-time-user {
+            color: #7f8c8d;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #7f8c8d;
+        }
+
+        .empty-state i {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #2c3e50;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            border-left: 4px solid #3498db;
+        }
+
+        .notification.success {
+            border-left-color: #2ecc71;
+        }
+
+        .notification.error {
+            border-left-color: #e74c3c;
+        }
+
+        .notification.warning {
+            border-left-color: #f39c12;
+        }
+
+        .notification-info {
+            font-size: 24px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Auction Status */
+        .auction-status-banner {
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        .auction-status-banner.inactive {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            animation: none;
+        }
+
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(46, 204, 113, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+            }
+        }
+
+        /* Real-time Indicator */
+        .real-time-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #2ecc71;
+            margin-left: 10px;
+        }
+
+        .live-dot {
+            width: 8px;
+            height: 8px;
+            background: #2ecc71;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #7f8c8d;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .nav-links {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .user-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .bid-amount {
+                font-size: 48px;
+            }
+            
+            .custom-input-group {
+                flex-direction: column;
+            }
+            
+            .place-bid-btn {
+                width: 100%;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                gap: 15px;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="user-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <h1>👤 Live Auction Bidding</h1>
+                <p>Place your bids in real-time</p>
+            </div>
+            <div class="nav-links">
+                <a href="admin-dashboard.html" class="nav-btn">Admin View</a>
+                <a href="user-bidding.html" class="nav-btn active">Bidding</a>
+                <a href="user-registration.html" class="nav-btn">User Management</a>
+            </div>
+        </header>
+
+        <!-- User Info -->
+        <div class="user-info">
+            <div class="user-avatar-large" id="userAvatar">Y</div>
+            <div class="user-details">
+                <h3 id="userName">Your Name</h3>
+                <div class="user-balance" id="userBalance">₹ 1,00,000</div>
+            </div>
+        </div>
+
+        <!-- Auction Status Banner -->
+        <div class="auction-status-banner inactive" id="auctionStatusBanner">
+            ⏹️ Auction is not active. Waiting for admin to start...
+        </div>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Current Bid Section -->
+            <div class="current-bid-section">
+                <div class="bid-label">Current Highest Bid</div>
+                <div class="bid-amount" id="currentBidAmount">₹ 0</div>
+                <div class="current-bidder" id="currentBidder">
+                    No bids placed yet
+                </div>
+                
+                <div class="auction-timer">
+                    <div class="timer-label">Auction Duration</div>
+                    <div class="timer-display" id="auctionTimer">00:00:00</div>
+                </div>
+                
+                <div style="margin-top: 30px; color: #7f8c8d;">
+                    <span class="real-time-indicator" id="realTimeIndicator" style="display: none;">
+                        <span class="live-dot"></span> LIVE UPDATES
+                    </span>
+                </div>
+            </div>
+
+            <!-- Bidding Controls -->
+            <div class="bidding-controls">
+                <h2 class="controls-title">Place Your Bid</h2>
+                <p style="color: #666; margin-bottom: 30px;">
+                    Click on any button to increase your bid amount
+                </p>
+
+                <!-- Quick Bid Buttons -->
+                <div class="quick-buttons">
+                    <button class="bid-btn" onclick="placeQuickBid(500)" id="btn500">
+                        <span class="amount">+ ₹500</span>
+                        <span class="label">Quick Bid</span>
+                    </button>
+                    <button class="bid-btn" onclick="placeQuickBid(1000)" id="btn1000">
+                        <span class="amount">+ ₹1,000</span>
+                        <span class="label">Quick Bid</span>
+                    </button>
+                    <button class="bid-btn" onclick="placeQuickBid(5000)" id="btn5000">
+                        <span class="amount">+ ₹5,000</span>
+                        <span class="label">Quick Bid</span>
+                    </button>
+                    <button class="bid-btn" onclick="placeQuickBid(10000)" id="btn10000">
+                        <span class="amount">+ ₹10,000</span>
+                        <span class="label">Quick Bid</span>
+                    </button>
+                </div>
+
+                <!-- Custom Bid -->
+                <div class="custom-bid">
+                    <h3>Custom Bid Amount</h3>
+                    <div class="custom-input-group">
+                        <div class="currency-symbol">₹</div>
+                        <input type="number" 
+                               class="custom-bid-input" 
+                               id="customBidInput"
+                               placeholder="Enter custom amount"
+                               min="100"
+                               step="100">
+                        <button class="place-bid-btn" onclick="placeCustomBid()" id="placeBidBtn">
+                            Place Bid
+                        </button>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 14px; color: #7f8c8d;">
+                        Minimum increase: <span id="minBidIncrease">₹ 500</span>
+                    </div>
+                </div>
+
+                <!-- User Stats -->
+                <div class="user-stats">
+                    <div class="stat-row">
+                        <span class="stat-label">Your Last Bid:</span>
+                        <span class="stat-value" id="userLastBid">₹ 0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Bids Placed:</span>
+                        <span class="stat-value" id="userBidCount">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Next Minimum Bid:</span>
+                        <span class="stat-value highlight" id="nextMinimumBid">₹ 500</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Registered Users Section -->
+            <div class="users-section">
+                <div class="section-header">
+                    <h2 class="section-title">👥 Registered Users</h2>
+                    <button class="refresh-btn" onclick="loadRegisteredUsers()">
+                        🔄 Refresh
+                    </button>
+                </div>
+                
+                <div id="usersList">
+                    <!-- Users will be loaded here -->
+                </div>
+            </div>
+
+            <!-- Bids History -->
+            <div class="bids-history-section">
+                <h2 class="section-title">Recent Bids</h2>
+                <div class="bids-list" id="bidsList">
+                    <div class="empty-state">
+                        <div>📭</div>
+                        <h3>No bids yet</h3>
+                        <p>Be the first to place a bid!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User state
+        const userState = {
+            userId: null,
+            userName: null,
+            userBalance: 1000000, // ₹10,00,000
+            lastBid: 0,
+            bidCount: 0,
+            auctionData: null,
+            updateInterval: null,
+            auctionStartTime: null,
+            allUsers: []
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeUser();
+            loadAuctionData();
+            loadRegisteredUsers();
+            setupEventListeners();
+            
+            // Start update interval
+            userState.updateInterval = setInterval(updateAuctionData, 2000);
+        });
+
+        // Initialize user
+        function initializeUser() {
+            // Generate or retrieve user ID
+            let userId = localStorage.getItem('biddingUserId');
+            if (!userId) {
+                userId = 'USR' + Math.random().toString(36).substr(2, 8).toUpperCase();
+                localStorage.setItem('biddingUserId', userId);
+            }
+            userState.userId = userId;
+            
+            // Set user name
+            const names = ['John Doe', 'Jane Smith', 'Alex Johnson', 'Sarah Williams', 'Mike Brown'];
+            const randomName = names[Math.floor(Math.random() * names.length)];
+            userState.userName = randomName;
+            
+            // Update UI
+            document.getElementById('userName').textContent = randomName;
+            document.getElementById('userAvatar').textContent = randomName.charAt(0);
+            document.getElementById('userBalance').textContent = formatCurrency(userState.userBalance);
+            
+            // Load user data from localStorage
+            loadUserData();
+        }
+
+        // Load user data
+        function loadUserData() {
+            try {
+                const saved = localStorage.getItem('userBiddingData');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    userState.lastBid = data.lastBid || 0;
+                    userState.bidCount = data.bidCount || 0;
+                    
+                    document.getElementById('userLastBid').textContent = formatCurrency(userState.lastBid);
+                    document.getElementById('userBidCount').textContent = userState.bidCount;
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+            }
+        }
+
+        // Save user data
+        function saveUserData() {
+            const data = {
+                lastBid: userState.lastBid,
+                bidCount: userState.bidCount,
+                userId: userState.userId,
+                userName: userState.userName
+            };
+            localStorage.setItem('userBiddingData', JSON.stringify(data));
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            const customInput = document.getElementById('customBidInput');
+            customInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    placeCustomBid();
+                }
+            });
+        }
+
+        // Load auction data
+        function loadAuctionData() {
+            try {
+                const saved = localStorage.getItem('auctionState');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    userState.auctionData = data.auction;
+                    userState.auctionStartTime = new Date(data.startTime);
+                    updateDisplay();
+                }
+            } catch (error) {
+                console.error('Error loading auction data:', error);
+            }
+        }
+
+        // Load registered users
+        function loadRegisteredUsers() {
+            try {
+                const saved = localStorage.getItem('biddingUsers');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    userState.allUsers = data.users || [];
+                    displayRegisteredUsers();
+                } else {
+                    // If no users in localStorage, create some demo users
+                    createDemoUsers();
+                }
+            } catch (error) {
+                console.error('Error loading users:', error);
+                createDemoUsers();
+            }
+        }
+
+        // Create demo users (for testing)
+        function createDemoUsers() {
+            userState.allUsers = [
+                {
+                    id: 'USR1001',
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    phone: '9876543210',
+                    balance: 1500000,
+                    status: 'active',
+                    bidsPlaced: 3,
+                    lastBid: 250000,
+                    registeredAt: '2024-01-10T10:00:00Z',
+                    isBidding: true,
+                    avatarColor: '#3498db'
+                },
+                {
+                    id: 'USR1002',
+                    name: 'Jane Smith',
+                    email: 'jane@example.com',
+                    phone: '9876543211',
+                    balance: 2000000,
+                    status: 'active',
+                    bidsPlaced: 5,
+                    lastBid: 300000,
+                    registeredAt: '2024-01-09T14:30:00Z',
+                    isBidding: true,
+                    avatarColor: '#e74c3c'
+                },
+                {
+                    id: 'USR1003',
+                    name: 'Robert Johnson',
+                    email: 'robert@example.com',
+                    phone: '9876543212',
+                    balance: 1200000,
+                    status: 'active',
+                    bidsPlaced: 2,
+                    lastBid: 150000,
+                    registeredAt: '2024-01-11T09:15:00Z',
+                    isBidding: false,
+                    avatarColor: '#2ecc71'
+                },
+                {
+                    id: 'USR1004',
+                    name: 'Alice Brown',
+                    email: 'alice@example.com',
+                    phone: '9876543213',
+                    balance: 1800000,
+                    status: 'active',
+                    bidsPlaced: 4,
+                    lastBid: 220000,
+                    registeredAt: '2024-01-08T16:45:00Z',
+                    isBidding: true,
+                    avatarColor: '#9b59b6'
+                },
+                {
+                    id: 'USR1005',
+                    name: 'Michael Wilson',
+                    email: 'michael@example.com',
+                    phone: '9876543214',
+                    balance: 1000000,
+                    status: 'active',
+                    bidsPlaced: 1,
+                    lastBid: 100000,
+                    registeredAt: '2024-01-12T11:20:00Z',
+                    isBidding: false,
+                    avatarColor: '#f39c12'
+                }
+            ];
+            displayRegisteredUsers();
+        }
+
+        // Display registered users
+        function displayRegisteredUsers() {
+            const usersList = document.getElementById('usersList');
+            
+            if (!userState.allUsers || userState.allUsers.length === 0) {
+                usersList.innerHTML = `
+                    <div class="empty-state">
+                        <div>👥</div>
+                        <h3>No Users Registered</h3>
+                        <p>Register users to see them here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Get current auction bidders
+            const auctionBidders = userState.auctionData ? 
+                Array.from(userState.auctionData.users || []) : [];
+            
+            // Sort users by activity (bidding users first, then by balance)
+            const sortedUsers = [...userState.allUsers].sort((a, b) => {
+                // Current user first
+                if (a.id === userState.userId) return -1;
+                if (b.id === userState.userId) return 1;
+                
+                // Then bidding users
+                const aIsBidding = auctionBidders.includes(a.id) || a.isBidding;
+                const bIsBidding = auctionBidders.includes(b.id) || b.isBidding;
+                if (aIsBidding && !bIsBidding) return -1;
+                if (!aIsBidding && bIsBidding) return 1;
+                
+                // Then by balance (highest first)
+                return b.balance - a.balance;
+            });
+            
+            usersList.innerHTML = `
+                <div class="users-grid">
+                    ${sortedUsers.map(user => {
+                        const isCurrentUser = user.id === userState.userId;
+                        const isActiveBidder = auctionBidders.includes(user.id) || user.isBidding;
+                        const isOnline = user.status === 'active';
+                        
+                        return `
+                            <div class="user-card ${isCurrentUser ? 'active-bidder' : ''}">
+                                <div class="user-card-header">
+                                    <div class="user-card-avatar" style="background: ${user.avatarColor}">
+                                        ${user.name.charAt(0).toUpperCase()}
+                                    </div>
+                                    <div class="user-card-info">
+                                        <h4>${user.name} ${isCurrentUser ? '(You)' : ''}</h4>
+                                        <div class="user-card-id">${user.id}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="user-card-stats">
+                                    <div class="user-stat">
+                                        <div class="user-stat-label">Bids</div>
+                                        <div class="user-stat-value">${user.bidsPlaced}</div>
+                                    </div>
+                                    <div class="user-stat">
+                                        <div class="user-stat-label">Last Bid</div>
+                                        <div class="user-stat-value">${formatCurrency(user.lastBid)}</div>
+                                    </div>
+                                </div>
+                                
+                                <div class="user-card-balance">
+                                    <div class="balance-label">Balance</div>
+                                    <div class="balance-amount">${formatCurrency(user.balance)}</div>
+                                </div>
+                                
+                                <div class="user-status ${isActiveBidder ? 'status-bidding' : isOnline ? 'status-online' : 'status-offline'}">
+                                    ${isCurrentUser ? 'CURRENT USER' : isActiveBidder ? 'ACTIVE BIDDER' : isOnline ? 'ONLINE' : 'OFFLINE'}
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        // Update auction data
+        function updateAuctionData() {
+            loadAuctionData();
+        }
+
+        // Update display
+        function updateDisplay() {
+            if (!userState.auctionData) {
+                showAuctionInactive();
+                return;
+            }
+
+            const auction = userState.auctionData;
+            const isActive = auction.status === 'active';
+            
+            // Update auction status banner
+            const banner = document.getElementById('auctionStatusBanner');
+            if (isActive) {
+                banner.textContent = '🚀 Auction is LIVE! Place your bids now!';
+                banner.className = 'auction-status-banner';
+                document.getElementById('realTimeIndicator').style.display = 'inline-flex';
+            } else {
+                banner.textContent = '⏹️ Auction is not active. Waiting for admin to start...';
+                banner.className = 'auction-status-banner inactive';
+                document.getElementById('realTimeIndicator').style.display = 'none';
+            }
+            
+            // Update current bid
+            document.getElementById('currentBidAmount').textContent = 
+                formatCurrency(auction.currentAmount);
+            
+            // Update current bidder
+            if (auction.bids.length > 0) {
+                const lastBid = auction.bids[auction.bids.length - 1];
+                const isOwnBid = lastBid.userId === userState.userId;
+                document.getElementById('currentBidder').innerHTML = `
+                    ${isOwnBid ? '🎯 You are' : '👤 ' + lastBid.userName + ' is'} currently winning
+                    ${lastBid.increment > 0 ? `<br><small>Increased by ${formatCurrency(lastBid.increment)}</small>` : ''}
+                `;
+            } else {
+                document.getElementById('currentBidder').textContent = 'No bids placed yet';
+            }
+            
+            // Update auction timer
+            if (isActive && userState.auctionStartTime) {
+                updateAuctionTimer();
+            }
+            
+            // Update next minimum bid
+            const minIncrease = Math.max(500, Math.ceil(auction.currentAmount * 0.01));
+            document.getElementById('nextMinimumBid').textContent = formatCurrency(minIncrease);
+            document.getElementById('minBidIncrease').textContent = formatCurrency(minIncrease);
+            
+            // Update bids list
+            updateBidsList();
+            
+            // Update button states
+            updateButtonStates(isActive);
+            
+            // Update users list
+            displayRegisteredUsers();
+        }
+
+        // Show auction inactive state
+        function showAuctionInactive() {
+            document.getElementById('currentBidAmount').textContent = '₹ 0';
+            document.getElementById('currentBidder').textContent = 'Auction not started';
+            document.getElementById('auctionTimer').textContent = '00:00:00';
+            document.getElementById('nextMinimumBid').textContent = '₹ 0';
+            document.getElementById('minBidIncrease').textContent = '₹ 0';
+            
+            updateButtonStates(false);
+        }
+
+        // Update auction timer
+        function updateAuctionTimer() {
+            if (!userState.auctionStartTime) return;
+            
+            const now = new Date();
+            const diff = Math.floor((now - userState.auctionStartTime) / 1000);
+            
+            const hours = Math.floor(diff / 3600);
+            const minutes = Math.floor((diff % 3600) / 60);
+            const seconds = diff % 60;
+            
+            document.getElementById('auctionTimer').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Update button states
+        function updateButtonStates(isActive) {
+            const buttons = ['btn500', 'btn1000', 'btn5000', 'btn10000', 'placeBidBtn'];
+            buttons.forEach(btnId => {
+                const btn = document.getElementById(btnId);
+                btn.disabled = !isActive;
+                btn.style.opacity = isActive ? '1' : '0.5';
+            });
+        }
+
+        // Place quick bid
+        function placeQuickBid(increment) {
+            if (!userState.auctionData || userState.auctionData.status !== 'active') {
+                showNotification('Auction is not active', 'error');
+                return;
+            }
+            
+            const newAmount = userState.auctionData.currentAmount + increment;
+            placeBid(newAmount, increment);
+        }
+
+        // Place custom bid
+        function placeCustomBid() {
+            if (!userState.auctionData || userState.auctionData.status !== 'active') {
+                showNotification('Auction is not active', 'error');
+                return;
+            }
+            
+            const customInput = document.getElementById('customBidInput');
+            const customAmount = parseInt(customInput.value);
+            
+            if (!customAmount || isNaN(customAmount)) {
+                showNotification('Please enter a valid amount', 'error');
+                return;
+            }
+            
+            const currentAmount = userState.auctionData.currentAmount;
+            const minIncrease = Math.max(500, Math.ceil(currentAmount * 0.01));
+            
+            if (customAmount <= currentAmount) {
+                showNotification(`Bid must be higher than current amount: ${formatCurrency(currentAmount)}`, 'error');
+                return;
+            }
+            
+            if (customAmount < currentAmount + minIncrease) {
+                showNotification(`Minimum increase is ${formatCurrency(minIncrease)}`, 'warning');
+                return;
+            }
+            
+            const increment = customAmount - currentAmount;
+            placeBid(customAmount, increment);
+            customInput.value = '';
+        }
+
+        // Place bid
+        function placeBid(amount, increment) {
+            // Check balance
+            if (amount > userState.userBalance) {
+                showNotification('Insufficient balance', 'error');
+                return;
+            }
+            
+            // Create bid object
+            const bid = {
+                id: `BID${Date.now()}`,
+                userId: userState.userId,
+                userName: userState.userName,
+                amount: amount,
+                timestamp: new Date(),
+                increment: increment
+            };
+            
+            // Update auction data
+            if (userState.auctionData) {
+                userState.auctionData.bids.push(bid);
+                userState.auctionData.currentAmount = amount;
+                
+                if (!userState.auctionData.users) {
+                    userState.auctionData.users = new Set();
+                }
+                userState.auctionData.users.add(userState.userId);
+            }
+            
+            // Update user state
+            userState.lastBid = amount;
+            userState.bidCount++;
+            userState.userBalance -= increment;
+            
+            // Update current user in allUsers array
+            const currentUserIndex = userState.allUsers.findIndex(u => u.id === userState.userId);
+            if (currentUserIndex !== -1) {
+                userState.allUsers[currentUserIndex].lastBid = amount;
+                userState.allUsers[currentUserIndex].bidsPlaced++;
+                userState.allUsers[currentUserIndex].balance -= increment;
+                userState.allUsers[currentUserIndex].isBidding = true;
+            }
+            
+            // Update UI
+            document.getElementById('userLastBid').textContent = formatCurrency(amount);
+            document.getElementById('userBidCount').textContent = userState.bidCount;
+            document.getElementById('userBalance').textContent = formatCurrency(userState.userBalance);
+            
+            // Save data
+            saveUserData();
+            saveAuctionData();
+            saveUsersData();
+            
+            // Show notification
+            showNotification(`Bid placed successfully! ${formatCurrency(amount)}`, 'success');
+            
+            // Update display
+            updateDisplay();
+            
+            // Simulate other bids
+            simulateOtherBids(amount);
+        }
+
+        // Simulate other users bidding
+        function simulateOtherBids(currentAmount) {
+            if (!userState.auctionData || userState.auctionData.status !== 'active') return;
+            
+            // Random chance of other bids
+            if (Math.random() > 0.6) {
+                setTimeout(() => {
+                    if (!userState.auctionData || userState.auctionData.status !== 'active') return;
+                    
+                    // Find a random user who is not the current user
+                    const otherUsers = userState.allUsers.filter(user => 
+                        user.id !== userState.userId && user.balance > 500
+                    );
+                    
+                    if (otherUsers.length === 0) return;
+                    
+                    const user = otherUsers[Math.floor(Math.random() * otherUsers.length)];
+                    const increments = [500, 1000, 5000, 10000];
+                    const increment = increments[Math.floor(Math.random() * increments.length)];
+                    const newAmount = currentAmount + increment;
+                    
+                    // Check if user has enough balance
+                    if (user.balance < increment) return;
+                    
+                    const bid = {
+                        id: `BID${Date.now()}`,
+                        userId: user.id,
+                        userName: user.name,
+                        amount: newAmount,
+                        timestamp: new Date(),
+                        increment: increment
+                    };
+                    
+                    userState.auctionData.bids.push(bid);
+                    userState.auctionData.currentAmount = newAmount;
+                    userState.auctionData.users.add(user.id);
+                    
+                    // Update user in allUsers array
+                    const userIndex = userState.allUsers.findIndex(u => u.id === user.id);
+                    if (userIndex !== -1) {
+                        userState.allUsers[userIndex].lastBid = newAmount;
+                        userState.allUsers[userIndex].bidsPlaced++;
+                        userState.allUsers[userIndex].balance -= increment;
+                        userState.allUsers[userIndex].isBidding = true;
+                    }
+                    
+                    saveAuctionData();
+                    saveUsersData();
+                    updateDisplay();
+                    
+                    showNotification(`${user.name} placed a bid: ${formatCurrency(newAmount)}`, 'warning');
+                }, 3000 + Math.random() * 5000);
+            }
+        }
+
+        // Save auction data
+        function saveAuctionData() {
+            if (!userState.auctionData) return;
+            
+            try {
+                const saved = localStorage.getItem('auctionState');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    data.auction = userState.auctionData;
+                    localStorage.setItem('auctionState', JSON.stringify(data));
+                }
+            } catch (error) {
+                console.error('Error saving auction data:', error);
+            }
+        }
+
+        // Save users data
+        function saveUsersData() {
+            try {
+                localStorage.setItem('biddingUsers', JSON.stringify({
+                    users: userState.allUsers
+                }));
+            } catch (error) {
+                console.error('Error saving users data:', error);
+            }
+        }
+
+        // Update bids list
+        function updateBidsList() {
+            const bidsList = document.getElementById('bidsList');
+            
+            if (!userState.auctionData || userState.auctionData.bids.length === 0) {
+                bidsList.innerHTML = `
+                    <div class="empty-state">
+                        <div>📭</div>
+                        <h3>No bids yet</h3>
+                        <p>Be the first to place a bid!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            // Show last 10 bids (newest first)
+            const recentBids = [...userState.auctionData.bids].reverse().slice(0, 10);
+            
+            bidsList.innerHTML = recentBids.map(bid => {
+                const isOwnBid = bid.userId === userState.userId;
+                return `
+                    <div class="bid-item-user ${isOwnBid ? 'own-bid' : ''}">
+                        <div class="bid-user-info">
+                            <div class="bid-user-avatar">${bid.userName.charAt(0)}</div>
+                            <div class="bid-user-name">
+                                ${bid.userName} ${isOwnBid ? ' (You)' : ''}
+                            </div>
+                        </div>
+                        <div class="bid-amount-user">
+                            ${formatCurrency(bid.amount)}
+                            ${bid.increment > 0 ? 
+                                `<span class="bid-increment">+${formatCurrency(bid.increment)}</span>` : 
+                                ''
+                            }
+                        </div>
+                        <div class="bid-time-user">
+                            ⏰ ${formatTime(bid.timestamp)}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('en-IN', {
+                style: 'currency',
+                currency: 'INR',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 0
+            }).format(amount);
+        }
+
+        // Format time
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            return date.toLocaleTimeString([], { 
+                hour: '2-digit', 
+                minute: '2-digit',
+                second: '2-digit'
+            });
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-info">
+                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
+                </div>
+                <div>${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Initial display update
+        updateDisplay();
+    </script>
+</body>
+</html>

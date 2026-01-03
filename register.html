@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Registration - Auction System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: #333;
+        }
+
+        .registration-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .registration-card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .registration-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .registration-header h1 {
+            color: #2c3e50;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .registration-header p {
+            color: #7f8c8d;
+            font-size: 16px;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background: #f8f9fa;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3498db;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+        }
+
+        .form-control.error {
+            border-color: #e74c3c;
+        }
+
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* Amount Input */
+        .amount-input {
+            position: relative;
+        }
+
+        .currency-symbol {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-weight: bold;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .amount-input input {
+            padding-left: 40px;
+        }
+
+        /* Balance Display */
+        .balance-display {
+            background: linear-gradient(135deg, #3498db, #2c3e50);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .balance-display h3 {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+
+        .balance-display .amount {
+            font-size: 32px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        /* Registration Button */
+        .register-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+        }
+
+        .register-btn:disabled {
+            background: #95a5a6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* Users Count */
+        .users-count {
+            text-align: center;
+            margin-top: 25px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            color: #2c3e50;
+        }
+
+        .users-count .count {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+            margin: 5px 0;
+        }
+
+        /* Progress Bar */
+        .progress-bar {
+            height: 6px;
+            background: #f0f0f0;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #2ecc71, #3498db);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            color: #2c3e50;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            animation: slideInRight 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            max-width: 400px;
+            border-left: 4px solid #3498db;
+        }
+
+        .notification.success {
+            border-left-color: #2ecc71;
+        }
+
+        .notification.error {
+            border-left-color: #e74c3c;
+        }
+
+        .notification.warning {
+            border-left-color: #f39c12;
+        }
+
+        .notification-info {
+            font-size: 24px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 576px) {
+            .registration-card {
+                padding: 25px;
+            }
+            
+            .registration-header h1 {
+                font-size: 28px;
+            }
+            
+            .form-control {
+                padding: 12px;
+            }
+            
+            .register-btn {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="registration-card">
+            <div class="registration-header">
+                <h1>👤 Register for Auction</h1>
+                <p>Create your account to start bidding</p>
+            </div>
+            
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="userName">Full Name</label>
+                    <input type="text" 
+                           id="userName" 
+                           class="form-control"
+                           placeholder="Enter your full name"
+                           required>
+                    <div class="error-message" id="nameError">Please enter a valid name (min 2 characters)</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userEmail">Email Address</label>
+                    <input type="email" 
+                           id="userEmail" 
+                           class="form-control"
+                           placeholder="you@example.com"
+                           required>
+                    <div class="error-message" id="emailError">Please enter a valid email address</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="userPhone">Phone Number</label>
+                    <input type="tel" 
+                           id="userPhone" 
+                           class="form-control"
+                           placeholder="9876543210"
+                           pattern="[0-9]{10}"
+                           required>
+                    <div class="error-message" id="phoneError">Please enter a valid 10-digit phone number</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="initialBalance">Initial Balance (₹)</label>
+                    <div class="amount-input">
+                        <span class="currency-symbol">₹</span>
+                        <input type="number" 
+                               id="initialBalance" 
+                               class="form-control"
+                               placeholder="Enter amount"
+                               min="1000"
+                               step="1000"
+                               value="10000"
+                               required>
+                    </div>
+                    <div class="error-message" id="balanceError">Minimum balance is ₹1,000</div>
+                </div>
+                
+                <div class="balance-display">
+                    <h3>STARTING BALANCE</h3>
+                    <div class="amount" id="balanceDisplay">₹ 10,000</div>
+                    <div class="subtext" id="balanceDescription">Ready for bidding</div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" id="registrationProgress" style="width: 0%"></div>
+                </div>
+                
+                <button type="submit" class="register-btn" id="registerButton">
+                    Register & Start Bidding
+                </button>
+                
+                <div class="loading" id="loadingSpinner" style="display: none;">
+                    <div class="spinner"></div>
+                    <p style="margin-top: 10px; color: #7f8c8d;">Redirecting to bidding...</p>
+                </div>
+            </form>
+            
+            <div class="users-count">
+                <div>Already Registered Users</div>
+                <div class="count" id="registeredUsersCount">0</div>
+                <div style="font-size: 14px; color: #7f8c8d; margin-top: 5px;">
+                    Join the live auction community
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateBalanceDisplay();
+            updateRegisteredUsersCount();
+            setupEventListeners();
+        });
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Form submission
+            document.getElementById('registrationForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                registerUser();
+            });
+
+            // Balance input
+            document.getElementById('initialBalance').addEventListener('input', updateBalanceDisplay);
+            
+            // Form inputs for progress bar
+            const formInputs = document.querySelectorAll('#registrationForm input');
+            formInputs.forEach(input => {
+                input.addEventListener('input', updateProgressBar);
+            });
+        }
+
+        // Update balance display
+        function updateBalanceDisplay() {
+            const balance = parseInt(document.getElementById('initialBalance').value) || 0;
+            document.getElementById('balanceDisplay').textContent = formatCurrency(balance);
+            
+            if (balance < 1000) {
+                document.getElementById('balanceDescription').textContent = 'Minimum is ₹1,000';
+                document.getElementById('balanceDescription').style.color = '#e74c3c';
+            } else {
+                document.getElementById('balanceDescription').textContent = 'Ready for bidding';
+                document.getElementById('balanceDescription').style.color = '#27ae60';
+            }
+        }
+
+        // Update progress bar
+        function updateProgressBar() {
+            const formInputs = document.querySelectorAll('#registrationForm input');
+            let filledFields = 0;
+            
+            formInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+            
+            const progress = (filledFields / formInputs.length) * 100;
+            document.getElementById('registrationProgress').style.width = `${progress}%`;
+        }
+
+        // Update registered users count
+        function updateRegisteredUsersCount() {
+            try {
+                const saved = localStorage.getItem('biddingUsers');
+                if (saved) {
+                    const data = JSON.parse(saved);
+                    const userCount = data.users ? data.users.length : 0;
+                    document.getElementById('registeredUsersCount').textContent = userCount;
+                }
+            } catch (error) {
+                console.log('No registered users yet');
+            }
+        }
+
+        // Register new user
+        function registerUser() {
+            // Get form values
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const phone = document.getElementById('userPhone').value.trim();
+            const balance = parseInt(document.getElementById('initialBalance').value) || 0;
+
+            // Validate inputs
+            if (!validateForm(name, email, phone, balance)) {
+                return;
+            }
+
+            // Show loading
+            document.getElementById('registerButton').style.display = 'none';
+            document.getElementById('loadingSpinner').style.display = 'block';
+
+            // Generate user ID
+            const userId = generateUserId();
+            
+            // Create user object
+            const user = {
+                id: userId,
+                name: name,
+                email: email,
+                phone: phone,
+                balance: balance,
+                status: 'active',
+                bidsPlaced: 0,
+                lastBid: 0,
+                lastActive: null,
+                registeredAt: new Date().toISOString(),
+                isBidding: false,
+                avatarColor: getRandomColor(),
+                totalBidAmount: 0,
+                rank: 0,
+                isHighestBidder: false
+            };
+
+            // Save user to localStorage
+            saveUser(user);
+            
+            // Set current user session
+            localStorage.setItem('currentUserId', userId);
+            localStorage.setItem('currentUserName', name);
+            localStorage.setItem('currentUserBalance', balance.toString());
+            
+            // Show success notification
+            setTimeout(() => {
+                showNotification(`Welcome ${name}! Registration successful.`, 'success');
+                
+                // Redirect to bidding page after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'auction-bidding.html';
+                }, 2000);
+            }, 1000);
+        }
+
+        // Validate form
+        function validateForm(name, email, phone, balance) {
+            let isValid = true;
+
+            // Reset errors
+            document.querySelectorAll('.error-message').forEach(el => {
+                el.style.display = 'none';
+                el.previousElementSibling.classList.remove('error');
+            });
+
+            // Validate name
+            if (!name || name.length < 2) {
+                document.getElementById('nameError').style.display = 'block';
+                document.getElementById('userName').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('emailError').style.display = 'block';
+                document.getElementById('userEmail').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate phone
+            const phoneRegex = /^\d{10}$/;
+            if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
+                document.getElementById('phoneError').style.display = 'block';
+                document.getElementById('userPhone').classList.add('error');
+                isValid = false;
+            }
+
+            // Validate balance
+            if (balance < 1000) {
+                document.getElementById('balanceError').style.display = 'block';
+                document.getElementById('initialBalance').classList.add('error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // Generate user ID
+        function generateUserId() {
+            const timestamp = Date.now().toString().slice(-6);
+            const random = Math.random().toString(36).substr(2, 4).toUpperCase();
+            return `USR${timestamp}${random}`;
+        }
+
+        // Save user to localStorage
+        function saveUser(newUser) {
+            try {
+                let usersData = localStorage.getItem('biddingUsers');
+                let users;
+                
+                if (usersData) {
+                    users = JSON.parse(usersData);
+                } else {
+                    users = {
+                        users: [],
+                        nextUserId: 1001
+                    };
+                }
+                
+                // Add new user
+                users.users.push(newUser);
+                
+                // Save back to localStorage
+                localStorage.setItem('biddingUsers', JSON.stringify(users));
+                
+                return true;
+            } catch (error) {
+                console.error('Error saving user:', error);
+                return false;
+            }
+        }
+
+        // Get random color for avatar
+        function getRandomColor() {
+            const colors = [
+                '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
+                '#1abc9c', '#d35400', '#c0392b', '#16a085', '#8e44ad'
+            ];
+            return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Format currency
+        function formatCurrency(amount) {
+            return '₹ ' + amount.toLocaleString('en-IN');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-info">
+                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
+                </div>
+                <div>${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initial progress bar update
+        updateProgressBar();
+    </script>
+</body>
+</html>
