@@ -3,275 +3,548 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auction Admin</title>
+    <title>Auction Admin Dashboard</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background: #f5f5f5;
+            background: #f8fafc;
             padding: 20px;
+            color: #333;
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
         /* Header */
         .header {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 6px solid #1e3a8a;
             text-align: center;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .header h1 {
-            color: #333;
-            margin-bottom: 10px;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+            background: white;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab-btn {
+            padding: 12px 24px;
+            background: #f1f5f9;
+            border: 2px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            color: #475569;
+            flex: 1;
+            text-align: center;
+        }
+
+        .tab-btn:hover {
+            background: #e2e8f0;
+        }
+
+        .tab-btn.active {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         /* Control Panel */
         .control-panel {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #1e3a8a;
         }
 
         .section-title {
-            color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #e2e8f0;
+            font-size: 20px;
+            font-weight: 700;
         }
 
         .input-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             text-align: center;
         }
 
         .input-group label {
             display: block;
-            margin-bottom: 5px;
-            color: #555;
+            margin-bottom: 8px;
+            color: #475569;
+            font-weight: 600;
         }
 
         .input-group input {
-            width: 200px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            width: 250px;
+            padding: 12px 16px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
             font-size: 16px;
             text-align: center;
+            transition: border-color 0.3s;
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
 
         .amount-display {
-            background: #4a90e2;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
-            padding: 20px;
-            border-radius: 4px;
+            padding: 30px;
+            border-radius: 12px;
             text-align: center;
-            margin: 20px 0;
+            margin: 30px 0;
+            box-shadow: 0 6px 15px rgba(30, 58, 138, 0.2);
+        }
+
+        .amount-display .label {
+            font-size: 16px;
+            opacity: 0.9;
+            margin-bottom: 10px;
         }
 
         .amount-display .amount {
-            font-size: 28px;
-            font-weight: bold;
-            margin: 10px 0;
+            font-size: 36px;
+            font-weight: 800;
+            margin: 15px 0;
+            letter-spacing: 0.5px;
+        }
+
+        .amount-display .conversion {
+            font-size: 16px;
+            opacity: 0.9;
         }
 
         .btn-group {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            gap: 20px;
+            margin-top: 30px;
             justify-content: center;
         }
 
         .btn {
-            padding: 12px 30px;
+            padding: 14px 40px;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
-            min-width: 150px;
+            min-width: 180px;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .btn.start {
-            background: #2ecc71;
+            background: #10b981;
             color: white;
+        }
+
+        .btn.start:hover {
+            background: #0da271;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(16, 185, 129, 0.3);
         }
 
         .btn.stop {
-            background: #e74c3c;
+            background: #ef4444;
             color: white;
         }
 
-        /* Status Display */
+        .btn.stop:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(239, 68, 68, 0.3);
+        }
+
+        /* Status Section */
         .status-section {
             background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
             text-align: center;
+            border-top: 4px solid #3b82f6;
         }
 
         .status-badge {
             display: inline-block;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 10px 0;
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 700;
+            margin: 15px 0;
+            letter-spacing: 0.5px;
         }
 
         .status-active {
-            background: #d4edda;
-            color: #155724;
+            background: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
         }
 
         .status-inactive {
-            background: #f8d7da;
-            color: #721c24;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .status-completed {
+            background: #dbeafe;
+            color: #1e40af;
+            border: 2px solid #3b82f6;
         }
 
         /* Current Bid */
         .current-bid {
-            background: #8e44ad;
+            background: linear-gradient(135deg, #1e40af, #3730a3);
             color: white;
-            padding: 25px;
-            border-radius: 8px;
-            margin: 20px 0;
+            padding: 35px;
+            border-radius: 12px;
+            margin: 30px 0;
             text-align: center;
+            box-shadow: 0 8px 20px rgba(30, 64, 175, 0.2);
+        }
+
+        .current-bid h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            opacity: 0.9;
         }
 
         .current-bid .amount {
-            font-size: 36px;
-            font-weight: bold;
-            margin: 15px 0;
+            font-size: 48px;
+            font-weight: 800;
+            margin: 20px 0;
+            letter-spacing: 1px;
         }
 
-        /* Actions Panel */
-        .actions-panel {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        /* Empty State */
+        .empty-state {
             text-align: center;
+            padding: 50px 20px;
+            color: #64748b;
         }
 
-        .action-buttons {
+        .empty-state h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #475569;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+        }
+
+        /* Live Users */
+        .live-users {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #10b981;
+        }
+
+        .users-list {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+
+        .user-item {
             display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 15px;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
         }
 
-        .action-btn {
-            padding: 10px 20px;
-            background: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            cursor: pointer;
+        .user-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e1;
+        }
+
+        .user-avatar {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            color: #1e293b;
+            margin-bottom: 3px;
+        }
+
+        .user-id {
+            font-size: 12px;
+            color: #64748b;
         }
 
         /* Stats */
         .stats {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            border-color: #cbd5e1;
+        }
+
+        .stat-card h3 {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .value {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1e3a8a;
+        }
+
+        /* Previous Auctions */
+        .previous-auctions {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #8b5cf6;
+        }
+
+        .auctions-list {
+            margin-top: 20px;
+        }
+
+        .auction-card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            border-left: 5px solid #1e3a8a;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+
+        .auction-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .auction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .auction-title {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 18px;
+        }
+
+        .auction-date {
+            color: #64748b;
+            font-size: 14px;
+            background: #f1f5f9;
+            padding: 5px 12px;
+            border-radius: 20px;
+        }
+
+        .auction-details {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-top: 20px;
         }
 
-        .stat-card {
-            background: #f8f9fa;
+        .detail-item {
+            text-align: center;
             padding: 15px;
-            border-radius: 4px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .detail-value {
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 16px;
+        }
+
+        .no-previous-auctions {
+            text-align: center;
+            padding: 50px 20px;
+            color: #94a3b8;
+            font-style: italic;
+        }
+
+        /* Actions Panel */
+        .actions-panel {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-top: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #f59e0b;
             text-align: center;
         }
 
-        .stat-card h3 {
-            color: #777;
-            font-size: 14px;
-            margin-bottom: 5px;
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 25px;
+            flex-wrap: wrap;
         }
 
-        .stat-card .value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #333;
+        .action-btn {
+            padding: 12px 25px;
+            background: white;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #777;
+        .action-btn:hover {
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
         }
 
         /* Notification */
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             background: white;
-            padding: 15px 20px;
-            border-radius: 4px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-            border-left: 4px solid #4a90e2;
+            padding: 18px 24px;
+            border-radius: 10px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            border-left: 5px solid #1e3a8a;
             animation: slideIn 0.3s ease;
+            z-index: 1000;
+            max-width: 350px;
         }
 
         @keyframes slideIn {
-            from { transform: translateX(100%); }
-            to { transform: translateX(0); }
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
         }
 
-        /* Live Users */
-        .live-users {
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            margin-top: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .users-list {
-            margin-top: 15px;
-        }
-
-        .user-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .user-avatar {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: #4a90e2;
-            color: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
+        /* Icons */
+        .icon {
+            font-size: 18px;
         }
 
         /* Responsive */
-        @media (max-width: 600px) {
+        @media (max-width: 768px) {
             .btn-group {
                 flex-direction: column;
                 align-items: center;
@@ -289,126 +562,210 @@
             
             .action-btn {
                 width: 100%;
-                max-width: 200px;
+                max-width: 250px;
+                justify-content: center;
             }
             
             .stats {
                 grid-template-columns: 1fr;
             }
+            
+            .auction-details {
+                grid-template-columns: 1fr;
+            }
+            
+            .users-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .auction-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .auction-date {
+                align-self: flex-start;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .control-panel, .status-section, .live-users, .previous-auctions, .actions-panel {
+                padding: 20px 15px;
+            }
+            
+            .amount-display .amount {
+                font-size: 28px;
+            }
+            
+            .current-bid .amount {
+                font-size: 36px;
+            }
+            
+            .tabs {
+                flex-direction: column;
+            }
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>Auction Admin Dashboard</h1>
-            <p>Manage live auctions</p>
+            <h1><i class="fas fa-gavel icon"></i> Auction Admin Dashboard</h1>
+            <p>Manage live auctions and view history</p>
         </div>
 
-        <!-- Control Panel -->
-        <div class="control-panel">
-            <h2 class="section-title">Auction Controls</h2>
-            
-            <div class="input-group">
-                <label for="initialAmount">Starting Amount (in lakhs)</label>
-                <input type="number" id="initialAmount" value="2" min="1" step="0.5">
-            </div>
-
-            <div class="amount-display">
-                <div>Starting Amount</div>
-                <div class="amount" id="displayAmount">₹ 200,000</div>
-                <div id="conversionText">2 lakhs</div>
-            </div>
-
-            <div class="btn-group">
-                <button class="btn start" onclick="startAuction()">Start Auction</button>
-                <button class="btn stop" onclick="stopAuction()">Stop Auction</button>
-            </div>
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="showTab('current')">
+                <i class="fas fa-play-circle icon"></i> Current Auction
+            </button>
+            <button class="tab-btn" onclick="showTab('previous')">
+                <i class="fas fa-history icon"></i> Previous Auctions
+            </button>
         </div>
 
-        <!-- Status Section -->
-        <div class="status-section">
-            <h2 class="section-title">Auction Status</h2>
-            <div class="status-badge status-inactive" id="auctionStatus">INACTIVE</div>
-            
-            <div class="current-bid" id="currentBidSection" style="display: none;">
-                <h2>Current Bid</h2>
-                <div class="amount" id="currentBidAmount">₹ 0</div>
-                <div style="margin-top: 10px; font-size: 14px;" id="currentBidder">
-                    No bids yet
+        <!-- Current Auction Tab -->
+        <div id="currentTab" class="tab-content active">
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <h2 class="section-title"><i class="fas fa-sliders-h icon"></i> Auction Controls</h2>
+                
+                <div class="input-group">
+                    <label for="initialAmount">Starting Amount (in lakhs)</label>
+                    <input type="number" id="initialAmount" value="2" min="1" step="0.5">
+                </div>
+
+                <div class="amount-display">
+                    <div class="label">Starting Amount</div>
+                    <div class="amount" id="displayAmount">₹ 200,000</div>
+                    <div class="conversion" id="conversionText">2 lakhs</div>
+                </div>
+
+                <div class="btn-group">
+                    <button class="btn start" onclick="startAuction()">
+                        <i class="fas fa-play icon"></i> Start Auction
+                    </button>
+                    <button class="btn stop" onclick="stopAuction()">
+                        <i class="fas fa-stop icon"></i> Stop Auction
+                    </button>
                 </div>
             </div>
 
-            <!-- Empty State -->
-            <div class="empty-state" id="emptyState">
-                <h3>No Active Auction</h3>
-                <p>Start an auction to begin</p>
+            <!-- Status Section -->
+            <div class="status-section">
+                <h2 class="section-title"><i class="fas fa-chart-line icon"></i> Auction Status</h2>
+                <div class="status-badge status-inactive" id="auctionStatus">INACTIVE</div>
+                
+                <div class="current-bid" id="currentBidSection" style="display: none;">
+                    <h2>Current Bid</h2>
+                    <div class="amount" id="currentBidAmount">₹ 0</div>
+                    <div style="margin-top: 15px; font-size: 16px;" id="currentBidder">
+                        No bids yet
+                    </div>
+                </div>
+
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState">
+                    <h3><i class="fas fa-clock icon"></i> No Active Auction</h3>
+                    <p>Start an auction to begin</p>
+                </div>
+            </div>
+
+            <!-- Live Users Section -->
+            <div class="live-users" id="liveUsersSection" style="display: none;">
+                <h2 class="section-title"><i class="fas fa-users icon"></i> Live Bidders</h2>
+                <div class="users-list" id="usersList">
+                    <!-- Users will be dynamically added here -->
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="status-section">
+                <h2 class="section-title"><i class="fas fa-chart-bar icon"></i> Statistics</h2>
+                <div class="stats">
+                    <div class="stat-card">
+                        <h3>Total Bids</h3>
+                        <div class="value" id="statsTotalBids">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Highest Bid</h3>
+                        <div class="value" id="statsHighestBid">₹ 0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Active Bidders</h3>
+                        <div class="value" id="statsActiveBidders">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <h3>Auction Duration</h3>
+                        <div class="value" id="statsDuration">0:00</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Live Users Section -->
-        <div class="live-users" id="liveUsersSection" style="display: none;">
-            <h2 class="section-title">Live Bidders</h2>
-            <div class="users-list" id="usersList">
-                <!-- Users will be dynamically added here -->
-            </div>
-        </div>
-
-        <!-- Stats -->
-        <div class="status-section">
-            <h2 class="section-title">Statistics</h2>
-            <div class="stats">
-                <div class="stat-card">
-                    <h3>Total Bids</h3>
-                    <div class="value" id="statsTotalBids">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Highest Bid</h3>
-                    <div class="value" id="statsHighestBid">₹ 0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Active Bidders</h3>
-                    <div class="value" id="statsActiveBidders">0</div>
-                </div>
-                <div class="stat-card">
-                    <h3>Auction Duration</h3>
-                    <div class="value" id="statsDuration">0:00</div>
+        <!-- Previous Auctions Tab -->
+        <div id="previousTab" class="tab-content">
+            <div class="previous-auctions">
+                <h2 class="section-title"><i class="fas fa-history icon"></i> Previous Auctions</h2>
+                <div class="auctions-list" id="auctionsList">
+                    <!-- Previous auctions will be dynamically added here -->
                 </div>
             </div>
         </div>
 
         <!-- Actions -->
         <div class="actions-panel">
-            <h2 class="section-title">Data Management</h2>
+            <h2 class="section-title"><i class="fas fa-tools icon"></i> Data Management</h2>
             <div class="action-buttons">
-                <button class="action-btn" onclick="exportData()">Export Data</button>
-                <button class="action-btn" onclick="importData()">Import Data</button>
-                <button class="action-btn" onclick="resetAuction()">Reset Auction</button>
-                <a href="auction-bidding.html" target="_blank" class="action-btn">View Bidding Page</a>
+                <button class="action-btn" onclick="exportData()">
+                    <i class="fas fa-file-export icon"></i> Export Data
+                </button>
+                <button class="action-btn" onclick="importData()">
+                    <i class="fas fa-file-import icon"></i> Import Data
+                </button>
+                <button class="action-btn" onclick="resetAuction()">
+                    <i class="fas fa-redo icon"></i> Reset Current Auction
+                </button>
+                <button class="action-btn" onclick="clearAllAuctions()">
+                    <i class="fas fa-trash-alt icon"></i> Clear All Auctions
+                </button>
+                <a href="auction-bidding.html" target="_blank" class="action-btn">
+                    <i class="fas fa-external-link-alt icon"></i> View Bidding Page
+                </a>
             </div>
         </div>
     </div>
 
     <script>
-        // State management - using same structure as auction-bidding.html
-        let auction = {
+        // State management
+        let currentAuction = {
             status: 'inactive',
             currentAmount: 0,
             initialAmount: 0,
             bids: [],
             users: new Set(),
-            startTime: null
+            startTime: null,
+            endTime: null,
+            id: null
         };
+        
+        let previousAuctions = [];
         let isActive = false;
         let updateInterval = null;
-        let startTime = null;
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
             updateAmountDisplay();
             loadFromStorage();
             updateDisplay();
+            loadPreviousAuctions();
             
             // Update amount display when input changes
             document.getElementById('initialAmount').addEventListener('input', updateAmountDisplay);
@@ -417,6 +774,30 @@
             updateInterval = setInterval(updateDisplay, 1000);
         });
 
+        // Show tab
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Remove active class from all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Show selected tab
+            document.getElementById(tabName + 'Tab').classList.add('active');
+            
+            // Add active class to clicked button
+            event.target.classList.add('active');
+            
+            // Load previous auctions if showing that tab
+            if (tabName === 'previous') {
+                loadPreviousAuctions();
+            }
+        }
+
         // Update amount display
         function updateAmountDisplay() {
             const lakhs = parseFloat(document.getElementById('initialAmount').value) || 0;
@@ -424,6 +805,13 @@
             
             document.getElementById('displayAmount').textContent = formatCurrency(amount);
             document.getElementById('conversionText').textContent = `${lakhs} lakh${lakhs !== 1 ? 's' : ''}`;
+        }
+
+        // Generate unique ID for auction
+        function generateAuctionId() {
+            const timestamp = Date.now();
+            const random = Math.random().toString(36).substr(2, 6).toUpperCase();
+            return `AUCTION_${timestamp}_${random}`;
         }
 
         // Start auction
@@ -437,17 +825,19 @@
 
             const initialAmount = lakhs * 100000;
             
-            auction = {
+            currentAuction = {
                 status: 'active',
                 currentAmount: initialAmount,
                 initialAmount: initialAmount,
                 bids: [],
                 users: new Set(),
-                startTime: new Date().toISOString()
+                startTime: new Date().toISOString(),
+                endTime: null,
+                id: generateAuctionId(),
+                name: `Auction ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})}`
             };
             
             isActive = true;
-            startTime = new Date();
             
             // Add initial bid
             addDemoBid(initialAmount);
@@ -455,6 +845,9 @@
             showNotification(`Auction started at ${formatCurrency(initialAmount)}`, 'success');
             updateDisplay();
             saveToStorage();
+            
+            // Switch to current auction tab
+            showTab('current');
             
             // Start simulated bidding
             simulateBidding();
@@ -467,29 +860,83 @@
                 return;
             }
             
-            isActive = false;
-            auction.status = 'stopped';
+            // Mark auction as completed
+            currentAuction.status = 'completed';
+            currentAuction.endTime = new Date().toISOString();
             
-            showNotification('Auction stopped', 'success');
-            saveToStorage();
-        }
-
-        // Reset auction
-        function resetAuction() {
-            auction = {
+            // Add to previous auctions
+            addToPreviousAuctions();
+            
+            isActive = false;
+            
+            // Clear current auction
+            currentAuction = {
                 status: 'inactive',
                 currentAmount: 0,
                 initialAmount: 0,
                 bids: [],
                 users: new Set(),
-                startTime: null
+                startTime: null,
+                endTime: null,
+                id: null
+            };
+            
+            showNotification('Auction stopped and saved to history', 'success');
+            updateDisplay();
+            saveToStorage();
+            loadPreviousAuctions();
+            
+            // Switch to previous auctions tab
+            showTab('previous');
+        }
+
+        // Add to previous auctions
+        function addToPreviousAuctions() {
+            // Load existing previous auctions
+            loadPreviousAuctionsFromStorage();
+            
+            // Add current auction to previous auctions
+            previousAuctions.unshift({
+                ...currentAuction,
+                users: Array.from(currentAuction.users) // Convert Set to array
+            });
+            
+            // Keep only last 10 auctions
+            if (previousAuctions.length > 10) {
+                previousAuctions = previousAuctions.slice(0, 10);
+            }
+            
+            // Save previous auctions
+            savePreviousAuctionsToStorage();
+        }
+
+        // Reset auction
+        function resetAuction() {
+            currentAuction = {
+                status: 'inactive',
+                currentAmount: 0,
+                initialAmount: 0,
+                bids: [],
+                users: new Set(),
+                startTime: null,
+                endTime: null,
+                id: null
             };
             isActive = false;
-            startTime = null;
             
             updateDisplay();
-            localStorage.removeItem('auctionState');
-            showNotification('Auction reset', 'info');
+            saveToStorage();
+            showNotification('Current auction reset', 'info');
+        }
+
+        // Clear all auctions
+        function clearAllAuctions() {
+            if (confirm('Are you sure you want to clear ALL previous auctions? This action cannot be undone.')) {
+                previousAuctions = [];
+                savePreviousAuctionsToStorage();
+                loadPreviousAuctions();
+                showNotification('All previous auctions cleared', 'info');
+            }
         }
 
         // Add demo bid
@@ -500,7 +947,7 @@
             ];
             
             const user = demoUsers[Math.floor(Math.random() * demoUsers.length)];
-            auction.users.add(user.id);
+            currentAuction.users.add(user.id);
             
             const bid = {
                 id: `BID${Date.now()}`,
@@ -511,18 +958,18 @@
                 increment: 0
             };
             
-            auction.bids.push(bid);
+            currentAuction.bids.push(bid);
         }
 
         // Simulate bidding
         function simulateBidding() {
-            if (!isActive || !auction || auction.status !== 'active') return;
+            if (!isActive || !currentAuction || currentAuction.status !== 'active') return;
             
             // Random interval for new bids
             const interval = 3000 + Math.random() * 4000;
             
             setTimeout(() => {
-                if (!isActive || !auction || auction.status !== 'active') return;
+                if (!isActive || !currentAuction || currentAuction.status !== 'active') return;
                 
                 // Get existing users from localStorage
                 let existingUsers = [];
@@ -551,7 +998,7 @@
                 // Generate random increment
                 const increments = [500, 1000, 2500, 5000];
                 const increment = increments[Math.floor(Math.random() * increments.length)];
-                const newAmount = auction.currentAmount + increment;
+                const newAmount = currentAuction.currentAmount + increment;
                 
                 // Check if user has enough balance (simplified check)
                 if (Math.random() > 0.3) { // 70% chance of successful bid
@@ -566,9 +1013,9 @@
                     };
                     
                     // Update auction state
-                    auction.bids.push(bid);
-                    auction.currentAmount = newAmount;
-                    auction.users.add(user.id);
+                    currentAuction.bids.push(bid);
+                    currentAuction.currentAmount = newAmount;
+                    currentAuction.users.add(user.id);
                     
                     // Update display
                     updateDisplay();
@@ -587,13 +1034,13 @@
         function updateDisplay() {
             // Update status
             const statusElement = document.getElementById('auctionStatus');
-            statusElement.textContent = auction.status === 'active' ? 'ACTIVE' : 'INACTIVE';
-            statusElement.className = `status-badge ${auction.status === 'active' ? 'status-active' : 'status-inactive'}`;
+            statusElement.textContent = currentAuction.status === 'active' ? 'ACTIVE' : 'INACTIVE';
+            statusElement.className = `status-badge ${currentAuction.status === 'active' ? 'status-active' : 'status-inactive'}`;
             
             // Update amount display
             updateAmountDisplay();
             
-            if (auction && auction.status === 'active') {
+            if (currentAuction && currentAuction.status === 'active') {
                 // Show/hide sections
                 const bidSection = document.getElementById('currentBidSection');
                 const emptyState = document.getElementById('emptyState');
@@ -604,11 +1051,11 @@
                 liveUsersSection.style.display = 'block';
                 
                 // Update bid amount
-                document.getElementById('currentBidAmount').textContent = formatCurrency(auction.currentAmount);
+                document.getElementById('currentBidAmount').textContent = formatCurrency(currentAuction.currentAmount);
                 
                 // Update current bidder
-                if (auction.bids.length > 0) {
-                    const lastBid = auction.bids[auction.bids.length - 1];
+                if (currentAuction.bids.length > 0) {
+                    const lastBid = currentAuction.bids[currentAuction.bids.length - 1];
                     document.getElementById('currentBidder').innerHTML = `
                         <strong>${lastBid.userName}</strong> is currently winning
                         ${lastBid.increment > 0 ? `<br><small>Increased by ${formatCurrency(lastBid.increment)}</small>` : ''}
@@ -629,15 +1076,15 @@
 
         // Update statistics
         function updateStats() {
-            if (!auction) return;
+            if (!currentAuction) return;
             
-            document.getElementById('statsTotalBids').textContent = auction.bids.length || 0;
-            document.getElementById('statsHighestBid').textContent = formatCurrency(auction.currentAmount || 0);
-            document.getElementById('statsActiveBidders').textContent = auction.users.size || 0;
+            document.getElementById('statsTotalBids').textContent = currentAuction.bids.length || 0;
+            document.getElementById('statsHighestBid').textContent = formatCurrency(currentAuction.currentAmount || 0);
+            document.getElementById('statsActiveBidders').textContent = currentAuction.users.size || 0;
             
             // Update auction duration
-            if (auction.startTime) {
-                const start = new Date(auction.startTime);
+            if (currentAuction.startTime) {
+                const start = new Date(currentAuction.startTime);
                 const now = new Date();
                 const diff = Math.floor((now - start) / 1000);
                 const minutes = Math.floor(diff / 60);
@@ -651,7 +1098,7 @@
         function updateLiveUsers() {
             const usersList = document.getElementById('usersList');
             
-            if (auction.users.size === 0) {
+            if (currentAuction.users.size === 0) {
                 usersList.innerHTML = '<div style="text-align: center; color: #777; padding: 20px;">No active bidders yet</div>';
                 return;
             }
@@ -669,29 +1116,131 @@
             }
             
             // Filter active users
-            const activeUsers = allUsers.filter(user => auction.users.has(user.id));
+            const activeUsers = allUsers.filter(user => currentAuction.users.has(user.id));
             
             if (activeUsers.length === 0) {
                 // Show user IDs if no details found
-                usersList.innerHTML = Array.from(auction.users).map(userId => `
+                usersList.innerHTML = Array.from(currentAuction.users).map(userId => `
                     <div class="user-item">
                         <div class="user-avatar">${userId.charAt(0)}</div>
-                        <div>${userId}</div>
+                        <div class="user-info">
+                            <div class="user-name">${userId}</div>
+                            <div class="user-id">${userId}</div>
+                        </div>
                     </div>
                 `).join('');
             } else {
                 usersList.innerHTML = activeUsers.map(user => `
                     <div class="user-item">
-                        <div class="user-avatar" style="background: ${user.avatarColor || '#4a90e2'}">
+                        <div class="user-avatar" style="background: linear-gradient(135deg, ${user.avatarColor || '#1e3a8a'}, ${user.avatarColor || '#3b82f6'})">
                             ${user.name.charAt(0)}
                         </div>
-                        <div>
-                            <strong>${user.name}</strong>
-                            <div style="font-size: 12px; color: #777;">${user.id}</div>
+                        <div class="user-info">
+                            <div class="user-name">${user.name}</div>
+                            <div class="user-id">${user.id}</div>
                         </div>
                     </div>
                 `).join('');
             }
+        }
+
+        // Load previous auctions
+        function loadPreviousAuctions() {
+            loadPreviousAuctionsFromStorage();
+            const auctionsList = document.getElementById('auctionsList');
+            
+            if (previousAuctions.length === 0) {
+                auctionsList.innerHTML = `
+                    <div class="no-previous-auctions">
+                        <i class="fas fa-box-open" style="font-size: 36px; margin-bottom: 15px; opacity: 0.5;"></i>
+                        <h3 style="color: #94a3b8; margin-bottom: 10px;">No Previous Auctions</h3>
+                        <p>Stop an auction to see it here</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            auctionsList.innerHTML = previousAuctions.map((auction, index) => {
+                // Calculate duration
+                let duration = 'N/A';
+                if (auction.startTime && auction.endTime) {
+                    const start = new Date(auction.startTime);
+                    const end = new Date(auction.endTime);
+                    const diff = Math.floor((end - start) / 1000);
+                    const minutes = Math.floor(diff / 60);
+                    const seconds = diff % 60;
+                    duration = `${minutes}m ${seconds}s`;
+                }
+                
+                // Get winning bidder
+                let winner = 'N/A';
+                let winningBid = 0;
+                if (auction.bids && auction.bids.length > 0) {
+                    const lastBid = auction.bids[auction.bids.length - 1];
+                    winner = lastBid.userName || 'Unknown';
+                    winningBid = lastBid.amount;
+                }
+                
+                return `
+                    <div class="auction-card">
+                        <div class="auction-header">
+                            <div class="auction-title">${auction.name || `Auction ${index + 1}`}</div>
+                            <div class="auction-date">
+                                ${auction.endTime ? new Date(auction.endTime).toLocaleDateString() : 'Unknown date'}
+                            </div>
+                        </div>
+                        
+                        <div class="auction-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Starting Amount</div>
+                                <div class="detail-value">${formatCurrency(auction.initialAmount || 0)}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Final Bid</div>
+                                <div class="detail-value">${formatCurrency(winningBid)}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Winner</div>
+                                <div class="detail-value">${winner}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Total Bids</div>
+                                <div class="detail-value">${auction.bids ? auction.bids.length : 0}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Unique Bidders</div>
+                                <div class="detail-value">${auction.users ? auction.users.length : 0}</div>
+                            </div>
+                            
+                            <div class="detail-item">
+                                <div class="detail-label">Duration</div>
+                                <div class="detail-value">${duration}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Load previous auctions from storage
+        function loadPreviousAuctionsFromStorage() {
+            try {
+                const saved = localStorage.getItem('previousAuctions');
+                if (saved) {
+                    previousAuctions = JSON.parse(saved);
+                }
+            } catch (error) {
+                console.log('No previous auctions found');
+            }
+        }
+
+        // Save previous auctions to storage
+        function savePreviousAuctionsToStorage() {
+            localStorage.setItem('previousAuctions', JSON.stringify(previousAuctions));
         }
 
         // Format currency
@@ -703,53 +1252,74 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = 'notification';
-            notification.style.borderLeftColor = 
-                type === 'success' ? '#2ecc71' : 
-                type === 'error' ? '#e74c3c' : 
-                type === 'warning' ? '#f39c12' : '#4a90e2';
             
-            notification.textContent = message;
+            // Set color based on type
+            let borderColor = '#1e3a8a'; // Default navy blue
+            if (type === 'success') borderColor = '#10b981';
+            else if (type === 'error') borderColor = '#ef4444';
+            else if (type === 'warning') borderColor = '#f59e0b';
+            
+            notification.style.borderLeftColor = borderColor;
+            
+            // Add icon
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            else if (type === 'error') icon = 'exclamation-circle';
+            else if (type === 'warning') icon = 'exclamation-triangle';
+            
+            notification.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-${icon}" style="color: ${borderColor}; font-size: 20px;"></i>
+                    <div style="flex: 1;">${message}</div>
+                </div>
+            `;
+            
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.remove();
+                notification.style.animation = 'slideIn 0.3s ease reverse';
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.parentNode.removeChild(notification);
+                    }
+                }, 300);
             }, 3000);
         }
 
-        // Save to localStorage - using same key as auction-bidding.html
+        // Save to localStorage - using same key as auction-bidding.html for current auction
         function saveToStorage() {
             const data = {
-                auction: auction,
-                isActive: isActive,
-                startTime: startTime
+                auction: currentAuction,
+                isActive: isActive
             };
             localStorage.setItem('auctionState', JSON.stringify(data));
         }
 
-        // Load from localStorage - using same key as auction-bidding.html
+        // Load from localStorage - using same key as auction-bidding.html for current auction
         function loadFromStorage() {
             try {
                 const saved = localStorage.getItem('auctionState');
                 if (saved) {
                     const data = JSON.parse(saved);
-                    auction = data.auction || {
+                    currentAuction = data.auction || {
                         status: 'inactive',
                         currentAmount: 0,
                         initialAmount: 0,
                         bids: [],
                         users: new Set(),
-                        startTime: null
+                        startTime: null,
+                        endTime: null,
+                        id: null
                     };
                     isActive = data.isActive || false;
-                    startTime = data.startTime ? new Date(data.startTime) : null;
                     
                     // Convert users Set from array if needed
-                    if (auction.users && Array.isArray(auction.users)) {
-                        auction.users = new Set(auction.users);
+                    if (currentAuction.users && Array.isArray(currentAuction.users)) {
+                        currentAuction.users = new Set(currentAuction.users);
                     }
                     
                     // If auction was active, start simulation again
-                    if (isActive && auction.status === 'active') {
+                    if (isActive && currentAuction.status === 'active') {
                         simulateBidding();
                     }
                 }
@@ -760,28 +1330,36 @@
 
         // Export data
         function exportData() {
-            if (!auction || auction.bids.length === 0) {
+            // Combine current and previous auctions
+            const allAuctions = [...previousAuctions];
+            if (currentAuction && currentAuction.bids && currentAuction.bids.length > 0) {
+                allAuctions.unshift({
+                    ...currentAuction,
+                    users: Array.from(currentAuction.users)
+                });
+            }
+            
+            if (allAuctions.length === 0) {
                 showNotification('No auction data to export', 'warning');
                 return;
             }
             
             const data = {
-                auction: {
-                    ...auction,
-                    users: Array.from(auction.users) // Convert Set to array for JSON
-                },
-                exportedAt: new Date().toISOString()
+                auctions: allAuctions,
+                exportedAt: new Date().toISOString(),
+                totalAuctions: allAuctions.length,
+                totalBids: allAuctions.reduce((sum, auction) => sum + (auction.bids ? auction.bids.length : 0), 0)
             };
             
             const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `auction-data-${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `auction-history-${new Date().toISOString().split('T')[0]}.json`;
             a.click();
             URL.revokeObjectURL(url);
             
-            showNotification('Data exported', 'success');
+            showNotification(`Exported ${allAuctions.length} auctions`, 'success');
         }
 
         // Import data
@@ -798,23 +1376,20 @@
                     try {
                         const data = JSON.parse(event.target.result);
                         
-                        if (!data.auction) {
+                        if (!data.auctions || !Array.isArray(data.auctions)) {
                             throw new Error('Invalid data format');
                         }
                         
-                        auction = data.auction;
-                        // Convert users array back to Set
-                        if (auction.users && Array.isArray(auction.users)) {
-                            auction.users = new Set(auction.users);
-                        }
+                        // Import previous auctions
+                        previousAuctions = data.auctions;
+                        savePreviousAuctionsToStorage();
                         
-                        isActive = false; // Always start as inactive when imported
-                        auction.status = 'inactive';
-                        startTime = null;
+                        // Update display
+                        loadPreviousAuctions();
+                        showNotification(`Imported ${data.auctions.length} auctions successfully`, 'success');
                         
-                        updateDisplay();
-                        saveToStorage();
-                        showNotification('Data imported successfully', 'success');
+                        // Switch to previous auctions tab
+                        showTab('previous');
                     } catch (error) {
                         showNotification('Error importing data', 'error');
                     }
