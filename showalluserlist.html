@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration - Bidding App</title>
+    <title>User Management - Bidding App</title>
     <style>
         * {
             margin: 0;
@@ -13,10 +13,10 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            background: #f8fafc;
             min-height: 100vh;
             padding: 20px;
-            color: #333;
+            color: #1e293b;
         }
 
         .container {
@@ -30,20 +30,22 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 30px;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border-top: 4px solid #1e3a8a;
         }
 
         .header-left h1 {
-            color: #2c3e50;
+            color: #1e3a8a;
             font-size: 32px;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .header-left p {
-            color: #7f8c8d;
+            color: #64748b;
         }
 
         .nav-links {
@@ -52,24 +54,32 @@
         }
 
         .nav-btn {
-            padding: 10px 20px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 25px;
+            padding: 10px 24px;
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-btn:hover {
-            background: #2980b9;
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
         }
 
         .nav-btn.active {
-            background: #2c3e50;
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
         }
 
         /* Main Content Grid */
@@ -88,18 +98,23 @@
 
         /* Registration Panel */
         .registration-panel {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border-top: 4px solid #10b981;
         }
 
         .panel-title {
-            color: #2c3e50;
+            color: #1e3a8a;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid #e2e8f0;
             font-size: 24px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
         /* Form Styles */
@@ -111,33 +126,42 @@
             display: block;
             margin-bottom: 8px;
             font-weight: 600;
-            color: #34495e;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .form-control {
             width: 100%;
             padding: 12px 15px;
-            border: 2px solid #ddd;
+            border: 2px solid #cbd5e1;
             border-radius: 8px;
             font-size: 16px;
             transition: all 0.3s;
+            background: #f8fafc;
+            color: #1e293b;
+            font-weight: 500;
         }
 
         .form-control:focus {
             outline: none;
-            border-color: #3498db;
-            box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+            border-color: #1e3a8a;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
 
         .form-control.error {
-            border-color: #e74c3c;
+            border-color: #ef4444;
+            background: #fef2f2;
         }
 
         .error-message {
-            color: #e74c3c;
+            color: #ef4444;
             font-size: 14px;
             margin-top: 5px;
             display: none;
+            font-weight: 500;
         }
 
         /* Amount Input */
@@ -150,8 +174,8 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            font-weight: bold;
-            color: #666;
+            font-weight: 700;
+            color: #1e3a8a;
             font-size: 18px;
         }
 
@@ -161,59 +185,70 @@
 
         /* Balance Display */
         .balance-display {
-            background: linear-gradient(135deg, #3498db, #2c3e50);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 12px;
             text-align: center;
-            margin: 20px 0;
+            margin: 25px 0;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
         }
 
         .balance-display h3 {
             font-size: 16px;
             opacity: 0.9;
             margin-bottom: 10px;
+            font-weight: 600;
         }
 
         .balance-display .amount {
             font-size: 32px;
-            font-weight: bold;
+            font-weight: 800;
             margin: 10px 0;
+            letter-spacing: 0.5px;
         }
 
         /* Registration Button */
         .register-btn {
             width: 100%;
             padding: 15px;
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            border-radius: 10px;
-            font-size: 18px;
-            font-weight: bold;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             margin-top: 10px;
+            box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
-        .register-btn:hover {
+        .register-btn:hover:not(:disabled) {
             transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            background: linear-gradient(135deg, #059669, #047857);
         }
 
         .register-btn:disabled {
-            background: #95a5a6;
+            background: #e2e8f0;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+            color: #94a3b8;
         }
 
         /* Users Panel */
         .users-panel {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border-top: 4px solid #8b5cf6;
         }
 
         .panel-header {
@@ -231,9 +266,18 @@
         .search-box input {
             width: 100%;
             padding: 10px 15px 10px 40px;
-            border: 2px solid #ddd;
-            border-radius: 25px;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
             font-size: 14px;
+            background: #f8fafc;
+            transition: all 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #1e3a8a;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1);
         }
 
         .search-icon {
@@ -241,7 +285,7 @@
             left: 15px;
             top: 50%;
             transform: translateY(-50%);
-            color: #7f8c8d;
+            color: #64748b;
         }
 
         /* Users Table */
@@ -249,14 +293,14 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
         }
 
         .users-table thead {
-            background: #2c3e50;
-            color: white;
+            background: #f1f5f9;
         }
 
         .users-table th {
@@ -264,16 +308,17 @@
             text-align: left;
             font-weight: 600;
             font-size: 14px;
-            text-transform: uppercase;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
         }
 
         .users-table tbody tr {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e2e8f0;
             transition: all 0.3s;
         }
 
         .users-table tbody tr:hover {
-            background: #f8f9fa;
+            background: #f8fafc;
         }
 
         .users-table tbody tr:last-child {
@@ -282,7 +327,7 @@
 
         .users-table td {
             padding: 15px;
-            color: #2c3e50;
+            color: #1e293b;
         }
 
         /* User Avatar in Table */
@@ -293,15 +338,16 @@
         }
 
         .user-avatar-small {
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3498db, #8e44ad);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
+            box-shadow: 0 2px 5px rgba(30, 58, 138, 0.2);
         }
 
         .user-info {
@@ -310,37 +356,46 @@
         }
 
         .user-name {
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 600;
+            color: #1e293b;
         }
 
         .user-id {
             font-size: 12px;
-            color: #7f8c8d;
+            color: #64748b;
+        }
+
+        .user-email {
+            font-size: 12px;
+            color: #64748b;
         }
 
         /* Status Badges */
         .status-badge {
             display: inline-block;
-            padding: 5px 10px;
+            padding: 6px 12px;
             border-radius: 20px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .status-active {
-            background: #d4edda;
-            color: #155724;
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #10b981;
         }
 
         .status-inactive {
-            background: #f8d7da;
-            color: #721c24;
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #ef4444;
         }
 
         .status-bidding {
-            background: #fff3cd;
-            color: #856404;
+            background: #fef3c7;
+            color: #92400e;
+            border: 1px solid #f59e0b;
         }
 
         /* Action Buttons */
@@ -350,56 +405,70 @@
         }
 
         .action-btn {
-            padding: 6px 12px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-size: 12px;
             cursor: pointer;
             transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .edit-btn {
-            background: #3498db;
+            background: #3b82f6;
             color: white;
+            border: 1px solid #1d4ed8;
         }
 
         .delete-btn {
-            background: #e74c3c;
+            background: #ef4444;
             color: white;
+            border: 1px solid #dc2626;
         }
 
         .view-btn {
-            background: #2ecc71;
+            background: #10b981;
             color: white;
+            border: 1px solid #059669;
         }
 
         .action-btn:hover {
-            opacity: 0.9;
             transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         }
 
         /* Balance Cell */
         .balance-cell {
-            font-weight: bold;
-            color: #27ae60;
+            font-weight: 700;
+            color: #059669;
+            font-size: 16px;
         }
 
         /* Bidding Stats */
         .stats-badge {
             display: inline-block;
-            padding: 4px 8px;
-            background: #e3f2fd;
-            color: #1976d2;
+            padding: 6px 12px;
+            background: #eff6ff;
+            color: #1d4ed8;
             border-radius: 12px;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 700;
+            border: 1px solid #bfdbfe;
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: #7f8c8d;
+            color: #64748b;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px dashed #cbd5e1;
+            margin-top: 20px;
         }
 
         .empty-state i {
@@ -411,36 +480,32 @@
         /* Notification */
         .notification {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            top: 25px;
+            right: 25px;
             background: white;
-            color: #2c3e50;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+            color: #1e293b;
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(30, 58, 138, 0.15);
             z-index: 1000;
             animation: slideInRight 0.3s ease;
             display: flex;
             align-items: center;
             gap: 15px;
             max-width: 400px;
-            border-left: 4px solid #3498db;
+            border-left: 5px solid #1e3a8a;
         }
 
         .notification.success {
-            border-left-color: #2ecc71;
+            border-left-color: #10b981;
         }
 
         .notification.error {
-            border-left-color: #e74c3c;
+            border-left-color: #ef4444;
         }
 
         .notification.warning {
-            border-left-color: #f39c12;
-        }
-
-        .notification-info {
-            font-size: 24px;
+            border-left-color: #f59e0b;
         }
 
         @keyframes slideInRight {
@@ -464,28 +529,37 @@
 
         .stat-card {
             background: white;
-            padding: 20px;
-            border-radius: 10px;
+            padding: 25px;
+            border-radius: 12px;
             text-align: center;
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-            border-top: 4px solid #3498db;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.15);
         }
 
         .stat-card h3 {
-            color: #7f8c8d;
+            color: #64748b;
             font-size: 14px;
             margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .stat-card .value {
-            font-size: 28px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-size: 32px;
+            font-weight: 800;
+            color: #1e3a8a;
+            margin: 10px 0;
         }
 
         .stat-card .subtext {
             font-size: 12px;
-            color: #95a5a6;
+            color: #94a3b8;
             margin-top: 5px;
         }
 
@@ -497,20 +571,23 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(30, 41, 59, 0.8);
             z-index: 2000;
             align-items: center;
             justify-content: center;
+            backdrop-filter: blur(4px);
         }
 
         .modal-content {
             background: white;
             padding: 30px;
-            border-radius: 15px;
+            border-radius: 16px;
             max-width: 500px;
             width: 90%;
             max-height: 80vh;
             overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border-top: 4px solid #1e3a8a;
         }
 
         .modal-header {
@@ -521,16 +598,22 @@
         }
 
         .modal-title {
-            color: #2c3e50;
+            color: #1e3a8a;
             font-size: 24px;
+            font-weight: 700;
         }
 
         .close-btn {
             background: none;
             border: none;
             font-size: 24px;
-            color: #7f8c8d;
+            color: #64748b;
             cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close-btn:hover {
+            color: #1e3a8a;
         }
 
         /* Responsive */
@@ -544,6 +627,7 @@
             .nav-links {
                 width: 100%;
                 justify-content: center;
+                flex-wrap: wrap;
             }
             
             .panel-header {
@@ -564,21 +648,89 @@
             .action-buttons {
                 flex-wrap: wrap;
             }
+            
+            .stats-summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 20px 15px;
+            }
+            
+            .header-left h1 {
+                font-size: 24px;
+            }
+            
+            .stats-summary {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-btn {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+            
+            .action-btn {
+                padding: 6px 12px;
+                font-size: 11px;
+            }
+        }
+
+        /* Loading State */
+        .loading-state {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #e2e8f0;
+            border-top: 4px solid #1e3a8a;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 15px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* User Registration Progress */
+        .progress-bar {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 3px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+            border-radius: 3px;
+            transition: width 0.3s ease;
+            box-shadow: 0 2px 4px rgba(30, 58, 138, 0.2);
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
-                <h1>👥 User Management</h1>
+                <h1><i class="fas fa-users"></i> User Management</h1>
                 <p>Register and manage bidding users</p>
             </div>
             <div class="nav-links">
-                <a href="admin-dashboard.html" class="nav-btn">Admin Dashboard</a>
-                <a href="user-bidding.html" class="nav-btn">Bidding Interface</a>
-                <a href="user-registration.html" class="nav-btn active">User Management</a>
+                <a href="admin-dashboard.html" class="nav-btn"><i class="fas fa-cogs"></i> Admin Dashboard</a>
+                <a href="auction-bidding.html" class="nav-btn"><i class="fas fa-gavel"></i> Bidding Interface</a>
+                <a href="user-registration.html" class="nav-btn active"><i class="fas fa-user-plus"></i> User Management</a>
             </div>
         </header>
 
@@ -610,42 +762,42 @@
         <div class="content-grid">
             <!-- Registration Panel -->
             <div class="registration-panel">
-                <h2 class="panel-title">Register New User</h2>
+                <h2 class="panel-title"><i class="fas fa-user-plus"></i> Register New User</h2>
                 
                 <form id="registrationForm">
                     <div class="form-group">
-                        <label for="userName">Full Name</label>
+                        <label for="userName"><i class="fas fa-user"></i> Full Name</label>
                         <input type="text" 
                                id="userName" 
                                class="form-control"
                                placeholder="Enter user's full name"
                                required>
-                        <div class="error-message" id="nameError">Please enter a valid name</div>
+                        <div class="error-message" id="nameError">Please enter a valid name (minimum 2 characters)</div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="userEmail">Email Address</label>
+                        <label for="userEmail"><i class="fas fa-envelope"></i> Email Address</label>
                         <input type="email" 
                                id="userEmail" 
                                class="form-control"
                                placeholder="user@example.com"
                                required>
-                        <div class="error-message" id="emailError">Please enter a valid email</div>
+                        <div class="error-message" id="emailError">Please enter a valid email address</div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="userPhone">Phone Number</label>
+                        <label for="userPhone"><i class="fas fa-phone"></i> Phone Number</label>
                         <input type="tel" 
                                id="userPhone" 
                                class="form-control"
-                               placeholder="+91 9876543210"
+                               placeholder="9876543210"
                                pattern="[0-9]{10}"
                                required>
                         <div class="error-message" id="phoneError">Please enter a valid 10-digit phone number</div>
                     </div>
                     
                     <div class="form-group">
-                        <label for="initialBalance">Initial Balance</label>
+                        <label for="initialBalance"><i class="fas fa-wallet"></i> Initial Balance</label>
                         <div class="amount-input">
                             <span class="currency-symbol">₹</span>
                             <input type="number" 
@@ -660,6 +812,11 @@
                         <div class="error-message" id="balanceError">Minimum balance is ₹1,000</div>
                     </div>
                     
+                    <!-- Progress Bar -->
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="registrationProgress" style="width: 0%"></div>
+                    </div>
+                    
                     <div class="balance-display">
                         <h3>INITIAL BALANCE</h3>
                         <div class="amount" id="balanceDisplay">₹ 10,000</div>
@@ -667,7 +824,7 @@
                     </div>
                     
                     <button type="submit" class="register-btn" id="registerButton">
-                        Register User
+                        <i class="fas fa-user-check"></i> Register User
                     </button>
                 </form>
             </div>
@@ -675,9 +832,9 @@
             <!-- Users Panel -->
             <div class="users-panel">
                 <div class="panel-header">
-                    <h2 class="panel-title">Registered Users</h2>
+                    <h2 class="panel-title"><i class="fas fa-users"></i> Registered Users</h2>
                     <div class="search-box">
-                        <span class="search-icon">🔍</span>
+                        <span class="search-icon"><i class="fas fa-search"></i></span>
                         <input type="text" 
                                id="searchUsers" 
                                placeholder="Search users by name or ID...">
@@ -702,9 +859,11 @@
                     </table>
                     
                     <div class="empty-state" id="emptyUsersState">
-                        <div>👥</div>
-                        <h3>No Users Registered</h3>
-                        <p>Register a new user to get started</p>
+                        <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;">
+                            <i class="fas fa-users-slash"></i>
+                        </div>
+                        <h3 style="color: #475569; margin-bottom: 10px;">No Users Registered</h3>
+                        <p style="color: #64748b;">Register a new user to get started</p>
                     </div>
                 </div>
             </div>
@@ -715,7 +874,7 @@
     <div class="modal" id="userDetailsModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 class="modal-title">User Details</h2>
+                <h2 class="modal-title"><i class="fas fa-user-circle"></i> User Details</h2>
                 <button class="close-btn" onclick="closeModal()">×</button>
             </div>
             <div id="userDetailsContent">
@@ -737,6 +896,8 @@
             loadUsers();
             setupEventListeners();
             updateStats();
+            updateBalanceDisplay();
+            setupFormProgress();
         });
 
         // Setup event listeners
@@ -753,6 +914,12 @@
             // Search input
             document.getElementById('searchUsers').addEventListener('input', searchUsers);
 
+            // Form inputs for progress tracking
+            const formInputs = document.querySelectorAll('#registrationForm input');
+            formInputs.forEach(input => {
+                input.addEventListener('input', updateFormProgress);
+            });
+
             // Click outside modal to close
             document.getElementById('userDetailsModal').addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -761,17 +928,43 @@
             });
         }
 
+        // Setup form progress tracking
+        function setupFormProgress() {
+            updateFormProgress();
+        }
+
+        // Update form progress
+        function updateFormProgress() {
+            const formInputs = document.querySelectorAll('#registrationForm input');
+            let filledFields = 0;
+            
+            formInputs.forEach(input => {
+                if (input.value.trim() !== '') {
+                    filledFields++;
+                }
+            });
+            
+            const progress = (filledFields / formInputs.length) * 100;
+            document.getElementById('registrationProgress').style.width = `${progress}%`;
+        }
+
         // Update balance display
         function updateBalanceDisplay() {
             const balance = parseInt(document.getElementById('initialBalance').value) || 0;
             document.getElementById('balanceDisplay').textContent = formatCurrency(balance);
             
             if (balance < 1000) {
-                document.getElementById('balanceDescription').textContent = 'Minimum is ₹1,000';
-                document.getElementById('balanceDescription').style.color = '#e74c3c';
+                document.getElementById('balanceDescription').textContent = 'Minimum balance is ₹1,000';
+                document.getElementById('balanceDescription').style.color = '#fca5a5';
+            } else if (balance < 5000) {
+                document.getElementById('balanceDescription').textContent = 'Good for casual bidding';
+                document.getElementById('balanceDescription').style.color = '#86efac';
+            } else if (balance < 20000) {
+                document.getElementById('balanceDescription').textContent = 'Competitive bidding ready';
+                document.getElementById('balanceDescription').style.color = '#4ade80';
             } else {
-                document.getElementById('balanceDescription').textContent = 'Ready for bidding';
-                document.getElementById('balanceDescription').style.color = '#27ae60';
+                document.getElementById('balanceDescription').textContent = 'High-stakes bidding enabled';
+                document.getElementById('balanceDescription').style.color = '#22c55e';
             }
         }
 
@@ -798,7 +991,7 @@
                 status: 'active',
                 bidsPlaced: 0,
                 lastBid: 0,
-                lastActive: null,
+                lastActive: new Date().toISOString(),
                 registeredAt: new Date().toISOString(),
                 isBidding: false,
                 avatarColor: getRandomColor()
@@ -814,9 +1007,10 @@
             // Reset form
             document.getElementById('registrationForm').reset();
             updateBalanceDisplay();
+            updateFormProgress();
 
             // Show notification
-            showNotification(`User ${name} registered successfully!`, 'success');
+            showNotification(`User "${name}" registered successfully!`, 'success');
 
             // Update display
             updateUsersTable();
@@ -833,7 +1027,7 @@
             // Reset errors
             document.querySelectorAll('.error-message').forEach(el => {
                 el.style.display = 'none';
-                el.previousElementSibling.classList.remove('error');
+                el.previousElementSibling?.classList.remove('error');
             });
 
             // Validate name
@@ -917,13 +1111,13 @@
                     <td>
                         <div class="action-buttons">
                             <button class="action-btn view-btn" onclick="viewUserDetails('${user.id}')">
-                                View
+                                <i class="fas fa-eye"></i> View
                             </button>
                             <button class="action-btn edit-btn" onclick="editUser('${user.id}')">
-                                Edit
+                                <i class="fas fa-edit"></i> Edit
                             </button>
                             <button class="action-btn delete-btn" onclick="deleteUser('${user.id}')">
-                                Delete
+                                <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
                     </td>
@@ -955,52 +1149,64 @@
             const modal = document.getElementById('userDetailsModal');
             const content = document.getElementById('userDetailsContent');
             
+            const registrationDate = new Date(user.registeredAt).toLocaleDateString('en-IN', {
+                weekday: 'long',
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+            });
+            
             content.innerHTML = `
                 <div style="margin-bottom: 30px;">
                     <div style="display: flex; align-items: center; gap: 20px; margin-bottom: 25px;">
-                        <div class="user-avatar-small" style="width: 60px; height: 60px; font-size: 24px; background: ${user.avatarColor}">
+                        <div class="user-avatar-small" style="width: 70px; height: 70px; font-size: 28px; background: ${user.avatarColor}">
                             ${user.name.charAt(0).toUpperCase()}
                         </div>
                         <div>
-                            <h3 style="color: #2c3e50; font-size: 24px; margin-bottom: 5px;">${user.name}</h3>
-                            <div style="color: #7f8c8d;">${user.id}</div>
+                            <h3 style="color: #1e293b; font-size: 24px; margin-bottom: 5px; font-weight: 700;">${user.name}</h3>
+                            <div style="color: #64748b; font-size: 14px;">${user.id}</div>
                         </div>
                     </div>
                     
                     <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px;">
-                        <div>
-                            <h4 style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Email</h4>
-                            <div style="color: #2c3e50; font-weight: 500;">${user.email}</div>
+                        <div style="padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4 style="color: #64748b; font-size: 14px; margin-bottom: 5px;"><i class="fas fa-envelope"></i> Email</h4>
+                            <div style="color: #1e293b; font-weight: 600;">${user.email}</div>
                         </div>
-                        <div>
-                            <h4 style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Phone</h4>
-                            <div style="color: #2c3e50; font-weight: 500;">${user.phone}</div>
+                        <div style="padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4 style="color: #64748b; font-size: 14px; margin-bottom: 5px;"><i class="fas fa-phone"></i> Phone</h4>
+                            <div style="color: #1e293b; font-weight: 600;">${user.phone}</div>
                         </div>
-                        <div>
-                            <h4 style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Balance</h4>
-                            <div style="color: #27ae60; font-size: 20px; font-weight: bold;">${formatCurrency(user.balance)}</div>
+                        <div style="padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4 style="color: #64748b; font-size: 14px; margin-bottom: 5px;"><i class="fas fa-wallet"></i> Balance</h4>
+                            <div style="color: #059669; font-size: 20px; font-weight: 800;">${formatCurrency(user.balance)}</div>
                         </div>
-                        <div>
-                            <h4 style="color: #7f8c8d; font-size: 14px; margin-bottom: 5px;">Bids Placed</h4>
-                            <div style="color: #2c3e50; font-size: 20px; font-weight: bold;">${user.bidsPlaced}</div>
+                        <div style="padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                            <h4 style="color: #64748b; font-size: 14px; margin-bottom: 5px;"><i class="fas fa-gavel"></i> Bids Placed</h4>
+                            <div style="color: #1e3a8a; font-size: 20px; font-weight: 800;">${user.bidsPlaced}</div>
                         </div>
                     </div>
                     
-                    <div style="margin-bottom: 25px;">
-                        <h4 style="color: #7f8c8d; font-size: 14px; margin-bottom: 10px;">Status</h4>
+                    <div style="margin-bottom: 25px; padding: 15px; background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;">
+                        <h4 style="color: #64748b; font-size: 14px; margin-bottom: 10px;">Account Status</h4>
                         <span class="status-badge ${getStatusClass(user)}" style="font-size: 14px;">
+                            <i class="fas fa-circle" style="font-size: 10px; margin-right: 6px;"></i>
                             ${getStatusText(user)}
                         </span>
+                        <div style="margin-top: 10px; font-size: 13px; color: #64748b;">
+                            <i class="fas fa-calendar-alt" style="margin-right: 6px;"></i>
+                            Registered on ${registrationDate}
+                        </div>
                     </div>
                     
                     <div style="display: flex; gap: 15px;">
                         <button onclick="transferToBidding('${user.id}')" 
-                                style="flex: 1; padding: 12px; background: #3498db; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                            Transfer to Bidding
+                                style="flex: 1; padding: 12px; background: #1e3a8a; color: white; border: none; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fas fa-gavel"></i> Transfer to Bidding
                         </button>
                         <button onclick="sendEmail('${user.email}')" 
-                                style="flex: 1; padding: 12px; background: #f8f9fa; color: #2c3e50; border: 1px solid #ddd; border-radius: 8px; font-weight: bold; cursor: pointer;">
-                            Send Email
+                                style="flex: 1; padding: 12px; background: white; color: #1e3a8a; border: 2px solid #1e3a8a; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                            <i class="fas fa-envelope"></i> Send Email
                         </button>
                     </div>
                 </div>
@@ -1014,9 +1220,19 @@
             const user = usersState.users.find(u => u.id === userId);
             if (!user) return;
             
-            // For now, just open details modal
-            viewUserDetails(userId);
-            showNotification('Edit functionality coming soon!', 'info');
+            // Pre-fill form with user data
+            document.getElementById('userName').value = user.name;
+            document.getElementById('userEmail').value = user.email;
+            document.getElementById('userPhone').value = user.phone;
+            document.getElementById('initialBalance').value = user.balance;
+            
+            updateBalanceDisplay();
+            updateFormProgress();
+            
+            showNotification(`Editing user "${user.name}" - update details and click Register User`, 'info');
+            
+            // Scroll to form
+            document.querySelector('.registration-panel').scrollIntoView({ behavior: 'smooth' });
         }
 
         // Delete user
@@ -1034,7 +1250,7 @@
                 updateUsersTable();
                 updateStats();
                 
-                showNotification(`User ${userName} deleted successfully`, 'success');
+                showNotification(`User "${userName}" deleted successfully`, 'success');
             }
         }
 
@@ -1048,18 +1264,19 @@
             user.lastActive = new Date().toISOString();
             
             // Save to localStorage for bidding page
-            localStorage.setItem('biddingUserId', user.id);
-            localStorage.setItem('biddingUserName', user.name);
-            localStorage.setItem('biddingUserBalance', user.balance.toString());
+            localStorage.setItem('currentUserId', user.id);
+            localStorage.setItem('currentUserName', user.name);
+            localStorage.setItem('currentUserBalance', user.balance.toString());
             
             saveUsers();
+            updateUsersTable();
             
             // Show notification
             showNotification(`Redirecting ${user.name} to bidding interface...`, 'success');
             
             // Open bidding page in new tab
             setTimeout(() => {
-                window.open('user-bidding.html', '_blank');
+                window.open('auction-bidding.html', '_blank');
             }, 1000);
         }
 
@@ -1111,8 +1328,8 @@
         // Get random color for avatar
         function getRandomColor() {
             const colors = [
-                '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
-                '#1abc9c', '#d35400', '#c0392b', '#16a085', '#8e44ad'
+                '#1e3a8a', '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b',
+                '#ef4444', '#ec4899', '#06b6d4', '#84cc16', '#f97316'
             ];
             return colors[Math.floor(Math.random() * colors.length)];
         }
@@ -1124,29 +1341,52 @@
 
         // Show notification
         function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(el => el.remove());
+            
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            else if (type === 'error') icon = 'exclamation-circle';
+            else if (type === 'warning') icon = 'exclamation-triangle';
+            
             notification.innerHTML = `
-                <div class="notification-info">
-                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
+                <div style="font-size: 20px;">
+                    <i class="fas fa-${icon}"></i>
                 </div>
-                <div>${message}</div>
+                <div style="flex: 1;">${message}</div>
             `;
             
             document.body.appendChild(notification);
             
             setTimeout(() => {
-                notification.style.animation = 'slideInRight 0.3s ease reverse';
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(100%)';
                 setTimeout(() => notification.remove(), 300);
             }, 4000);
         }
 
         // Save users to localStorage
         function saveUsers() {
-            localStorage.setItem('biddingUsers', JSON.stringify({
+            const data = {
                 users: usersState.users,
                 nextUserId: usersState.nextUserId
-            }));
+            };
+            localStorage.setItem('biddingUsers', JSON.stringify(data));
+            
+            // Also update the bidding page's user data
+            try {
+                const existingData = localStorage.getItem('biddingUsers');
+                if (existingData) {
+                    const parsed = JSON.parse(existingData);
+                    parsed.users = usersState.users;
+                    localStorage.setItem('biddingUsers', JSON.stringify(parsed));
+                }
+            } catch (error) {
+                console.log('Error updating bidding users data');
+            }
         }
 
         // Load users from localStorage
@@ -1187,8 +1427,59 @@
             }
         }
 
-        // Initial balance display update
-        updateBalanceDisplay();
+        // Generate demo users for testing (optional)
+        function generateDemoUsers() {
+            if (usersState.users.length === 0) {
+                const demoUsers = [
+                    {
+                        id: 'USR001',
+                        name: 'John Smith',
+                        email: 'john@example.com',
+                        phone: '9876543210',
+                        balance: 50000,
+                        status: 'active',
+                        bidsPlaced: 5,
+                        lastBid: 25000,
+                        registeredAt: new Date().toISOString(),
+                        avatarColor: '#1e3a8a'
+                    },
+                    {
+                        id: 'USR002',
+                        name: 'Emma Wilson',
+                        email: 'emma@example.com',
+                        phone: '9876543211',
+                        balance: 75000,
+                        status: 'active',
+                        bidsPlaced: 8,
+                        lastBid: 32000,
+                        registeredAt: new Date().toISOString(),
+                        avatarColor: '#3b82f6'
+                    },
+                    {
+                        id: 'USR003',
+                        name: 'David Johnson',
+                        email: 'david@example.com',
+                        phone: '9876543212',
+                        balance: 30000,
+                        status: 'active',
+                        bidsPlaced: 3,
+                        lastBid: 18000,
+                        registeredAt: new Date().toISOString(),
+                        avatarColor: '#10b981'
+                    }
+                ];
+                
+                usersState.users = demoUsers;
+                usersState.nextUserId = 1004;
+                
+                saveUsers();
+                updateUsersTable();
+                updateStats();
+            }
+        }
+
+        // Uncomment the line below to generate demo users for testing
+        // generateDemoUsers();
     </script>
 </body>
 </html>
