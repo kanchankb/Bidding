@@ -13,9 +13,9 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+            background: #f8fafc;
             min-height: 100vh;
-            color: #333;
+            color: #1e293b;
         }
 
         .container {
@@ -31,19 +31,21 @@
             align-items: center;
             margin-bottom: 30px;
             padding: 25px;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border-top: 4px solid #1e3a8a;
         }
 
         .header-left h1 {
-            color: #2c3e50;
+            color: #1e3a8a;
             font-size: 32px;
             margin-bottom: 8px;
+            font-weight: 700;
         }
 
         .header-left p {
-            color: #7f8c8d;
+            color: #64748b;
             font-size: 16px;
         }
 
@@ -54,66 +56,67 @@
 
         .nav-btn {
             padding: 10px 24px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 25px;
+            background: #f1f5f9;
+            color: #475569;
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
             transition: all 0.3s;
             cursor: pointer;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .nav-btn:hover {
-            background: #2980b9;
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(41, 128, 185, 0.3);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
         }
 
         .nav-btn.active {
-            background: #2c3e50;
+            background: #1e3a8a;
+            color: white;
+            border-color: #1e3a8a;
         }
 
         .nav-btn.logout {
-            background: #e74c3c;
+            background: #fee2e2;
+            color: #991b1b;
+            border-color: #fca5a5;
         }
 
         .nav-btn.logout:hover {
-            background: #c0392b;
-            box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
         }
 
         /* User Info Card */
         .user-info-card {
-            background: #2c3e50;
-            color: white;
+            background: white;
+            color: #1e293b;
             padding: 25px;
-            border-radius: 20px;
+            border-radius: 16px;
             margin-bottom: 30px;
             display: flex;
             align-items: center;
             gap: 25px;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
             position: relative;
             overflow: hidden;
-        }
-
-        .user-info-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3498db, #2ecc71);
+            border-left: 5px solid #1e3a8a;
         }
 
         .user-avatar-large {
             width: 70px;
             height: 70px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #3498db, #8e44ad);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -121,7 +124,7 @@
             font-weight: bold;
             flex-shrink: 0;
             border: 3px solid white;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.3);
         }
 
         .user-details {
@@ -134,10 +137,11 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 700;
         }
 
         .user-details .user-id {
-            color: #bdc3c7;
+            color: #64748b;
             font-size: 14px;
             margin-bottom: 12px;
             font-family: 'Courier New', monospace;
@@ -145,18 +149,18 @@
 
         .user-balance {
             font-size: 28px;
-            font-weight: bold;
-            color: #2ecc71;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            font-weight: 800;
+            color: #059669;
+            text-shadow: 0 2px 4px rgba(5, 150, 105, 0.1);
         }
 
         .user-rank-badge {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             color: white;
             padding: 8px 16px;
             border-radius: 20px;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 700;
             display: inline-flex;
             align-items: center;
             gap: 6px;
@@ -165,16 +169,16 @@
 
         /* Auction Status Banner */
         .auction-status-banner {
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             text-align: center;
             margin-bottom: 30px;
             animation: pulse 2s infinite;
-            font-weight: bold;
+            font-weight: 700;
             font-size: 20px;
-            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -190,24 +194,26 @@
         }
 
         .auction-status-banner.inactive {
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            background: linear-gradient(135deg, #ef4444, #dc2626);
             animation: none;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
         }
 
         .auction-status-banner.warning {
-            background: linear-gradient(135deg, #f39c12, #e67e22);
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             animation: none;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.3);
         }
 
         @keyframes pulse {
             0% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
             }
             70% {
-                box-shadow: 0 0 0 15px rgba(46, 204, 113, 0);
+                box-shadow: 0 0 0 15px rgba(16, 185, 129, 0);
             }
             100% {
-                box-shadow: 0 0 0 0 rgba(46, 204, 113, 0);
+                box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
             }
         }
 
@@ -227,42 +233,33 @@
 
         /* Live Auction Section */
         .live-auction-section {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 35px;
-            border-radius: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
             position: relative;
-        }
-
-        .live-auction-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3498db, #9b59b6);
-            border-radius: 25px 25px 0 0;
+            border-top: 4px solid #3b82f6;
         }
 
         .section-title {
-            color: #2c3e50;
+            color: #1e3a8a;
             margin-bottom: 30px;
             padding-bottom: 20px;
-            border-bottom: 2px solid #eee;
+            border-bottom: 2px solid #e2e8f0;
             font-size: 28px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            font-weight: 700;
         }
 
         .live-badge {
-            background: #e74c3c;
+            background: #ef4444;
             color: white;
             padding: 6px 15px;
             border-radius: 20px;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 700;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -278,11 +275,11 @@
         .current-bid-display {
             text-align: center;
             padding: 50px 30px;
-            background: linear-gradient(135deg, #8e44ad, #9b59b6);
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
-            border-radius: 20px;
+            border-radius: 16px;
             margin-bottom: 40px;
-            box-shadow: 0 10px 30px rgba(142, 68, 173, 0.4);
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.3);
             position: relative;
             overflow: hidden;
         }
@@ -315,32 +312,33 @@
 
         .current-bid-amount {
             font-size: 80px;
-            font-weight: bold;
+            font-weight: 800;
             margin: 30px 0;
-            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.3);
+            text-shadow: 2px 4px 8px rgba(0, 0, 0, 0.2);
             font-family: 'Arial Black', sans-serif;
         }
 
         .current-bidder-info {
             font-size: 22px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.15);
             padding: 15px 30px;
             border-radius: 30px;
             display: inline-block;
             backdrop-filter: blur(10px);
+            font-weight: 600;
         }
 
         .current-bidder-info .you {
-            color: #2ecc71;
-            font-weight: bold;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            color: #10b981;
+            font-weight: 800;
+            text-shadow: 0 2px 4px rgba(16, 185, 129, 0.3);
         }
 
         /* Auction Timer */
         .auction-timer {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.15);
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             text-align: center;
             margin-top: 30px;
             backdrop-filter: blur(10px);
@@ -357,10 +355,10 @@
 
         .timer-display {
             font-size: 32px;
-            font-weight: bold;
-            color: #2ecc71;
+            font-weight: 800;
+            color: #10b981;
             font-family: 'Courier New', monospace;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
         /* Bid Buttons Grid */
@@ -379,10 +377,10 @@
 
         .bid-button {
             padding: 30px 20px;
-            border: none;
-            border-radius: 20px;
+            border: 2px solid #1e3a8a;
+            border-radius: 16px;
             font-size: 22px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             display: flex;
@@ -390,12 +388,12 @@
             align-items: center;
             justify-content: center;
             gap: 12px;
-            background: linear-gradient(135deg, #3498db, #2980b9);
-            color: white;
+            background: white;
+            color: #1e3a8a;
             min-height: 140px;
             position: relative;
             overflow: hidden;
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.1);
         }
 
         .bid-button::before {
@@ -405,26 +403,30 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(rgba(30, 58, 138, 0.1), transparent);
             opacity: 0;
             transition: opacity 0.3s;
         }
 
-        .bid-button:hover {
+        .bid-button:hover:not(:disabled) {
+            background: #1e3a8a;
+            color: white;
             transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 12px 30px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 8px 20px rgba(30, 58, 138, 0.3);
         }
 
         .bid-button:hover::before {
             opacity: 1;
         }
 
-        .bid-button:active {
+        .bid-button:active:not(:disabled) {
             transform: translateY(-4px);
         }
 
         .bid-button:disabled {
-            background: #95a5a6;
+            background: #e2e8f0;
+            color: #94a3b8;
+            border-color: #cbd5e1;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -438,36 +440,32 @@
 
         .bid-button .amount {
             font-size: 32px;
-            font-weight: bold;
+            font-weight: 800;
         }
 
         .bid-button .label {
             font-size: 16px;
-            opacity: 0.9;
+            opacity: 0.8;
         }
 
         /* Custom Bid Section */
         .custom-bid-section {
-            background: #f8f9fa;
+            background: #f8fafc;
             padding: 30px;
-            border-radius: 20px;
+            border-radius: 16px;
             margin-top: 40px;
-            border: 2px dashed #ddd;
+            border: 2px dashed #cbd5e1;
             position: relative;
         }
 
         .custom-bid-section h3 {
-            color: #2c3e50;
+            color: #1e3a8a;
             margin-bottom: 25px;
             font-size: 22px;
             display: flex;
             align-items: center;
             gap: 10px;
-        }
-
-        .custom-bid-section h3::before {
-            content: '💰';
-            font-size: 24px;
+            font-weight: 700;
         }
 
         .custom-input-group {
@@ -484,8 +482,8 @@
 
         .currency-symbol {
             font-size: 28px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 800;
+            color: #1e3a8a;
             min-width: 40px;
             text-align: center;
         }
@@ -493,30 +491,31 @@
         .custom-bid-input {
             flex: 1;
             padding: 20px;
-            border: 3px solid #3498db;
-            border-radius: 15px;
+            border: 3px solid #1e3a8a;
+            border-radius: 12px;
             font-size: 20px;
             transition: all 0.3s;
             background: white;
             text-align: center;
-            font-weight: bold;
+            font-weight: 600;
+            color: #1e293b;
         }
 
         .custom-bid-input:focus {
             outline: none;
-            border-color: #2ecc71;
-            box-shadow: 0 0 0 4px rgba(46, 204, 113, 0.2);
+            border-color: #10b981;
+            box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1);
             transform: scale(1.02);
         }
 
         .place-custom-bid-btn {
             padding: 20px 40px;
-            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            background: linear-gradient(135deg, #10b981, #059669);
             color: white;
             border: none;
-            border-radius: 15px;
+            border-radius: 12px;
             font-size: 18px;
-            font-weight: bold;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
             min-width: 180px;
@@ -524,16 +523,17 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 6px 20px rgba(46, 204, 113, 0.3);
+            box-shadow: 0 4px 8px rgba(16, 185, 129, 0.2);
         }
 
-        .place-custom-bid-btn:hover {
+        .place-custom-bid-btn:hover:not(:disabled) {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
+            box-shadow: 0 8px 16px rgba(16, 185, 129, 0.3);
         }
 
         .place-custom-bid-btn:disabled {
-            background: #95a5a6;
+            background: #e2e8f0;
+            color: #94a3b8;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
@@ -541,40 +541,32 @@
 
         /* User Stats Sidebar */
         .user-stats-sidebar {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 35px;
-            border-radius: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
             position: relative;
-        }
-
-        .user-stats-sidebar::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #2ecc71, #3498db);
-            border-radius: 25px 25px 0 0;
+            border-top: 4px solid #8b5cf6;
         }
 
         .user-stat-card {
-            background: white;
+            background: #f8fafc;
             padding: 25px;
-            border-radius: 15px;
+            border-radius: 12px;
             margin-bottom: 25px;
-            border-left: 5px solid #3498db;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            border-left: 5px solid #1e3a8a;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             transition: transform 0.3s;
+            border: 1px solid #e2e8f0;
         }
 
         .user-stat-card:hover {
             transform: translateX(5px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
         }
 
         .user-stat-card h3 {
-            color: #7f8c8d;
+            color: #64748b;
             font-size: 14px;
             margin-bottom: 12px;
             text-transform: uppercase;
@@ -582,38 +574,29 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            font-weight: 600;
         }
 
         .user-stat-card .value {
             font-size: 32px;
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 800;
+            color: #1e3a8a;
         }
 
         .user-stat-card .value.highlight {
-            color: #2ecc71;
-            text-shadow: 0 2px 4px rgba(46, 204, 113, 0.2);
+            color: #059669;
+            text-shadow: 0 2px 4px rgba(5, 150, 105, 0.1);
         }
 
         /* Bidders Ranking */
         .bidders-ranking {
-            background: rgba(255, 255, 255, 0.95);
+            background: white;
             padding: 35px;
-            border-radius: 25px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border-radius: 16px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
             margin-top: 30px;
             position: relative;
-        }
-
-        .bidders-ranking::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #f39c12, #e74c3c);
-            border-radius: 25px 25px 0 0;
+            border-top: 4px solid #f59e0b;
         }
 
         .ranking-header {
@@ -624,20 +607,21 @@
         }
 
         .ranking-title {
-            color: #2c3e50;
+            color: #1e3a8a;
             font-size: 28px;
             margin: 0;
             display: flex;
             align-items: center;
             gap: 12px;
+            font-weight: 700;
         }
 
         .refresh-btn {
             padding: 12px 24px;
-            background: #3498db;
+            background: #1e3a8a;
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
@@ -645,13 +629,13 @@
             align-items: center;
             gap: 10px;
             font-size: 15px;
-            box-shadow: 0 4px 15px rgba(52, 152, 219, 0.3);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.2);
         }
 
         .refresh-btn:hover {
-            background: #2980b9;
+            background: #1e40af;
             transform: translateY(-3px) rotate(5deg);
-            box-shadow: 0 6px 20px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 6px 12px rgba(30, 58, 138, 0.3);
         }
 
         /* Ranking Table */
@@ -659,14 +643,14 @@
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             overflow: hidden;
-            box-shadow: 0 6px 25px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e2e8f0;
         }
 
         .ranking-table thead {
-            background: linear-gradient(135deg, #2c3e50, #34495e);
-            color: white;
+            background: #f1f5f9;
         }
 
         .ranking-table th {
@@ -674,13 +658,14 @@
             text-align: left;
             font-weight: 600;
             font-size: 14px;
+            color: #475569;
+            border-bottom: 2px solid #e2e8f0;
             text-transform: uppercase;
             letter-spacing: 1px;
-            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
         }
 
         .ranking-table tbody tr {
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e2e8f0;
             transition: all 0.3s;
         }
 
@@ -689,62 +674,65 @@
         }
 
         .ranking-table tbody tr:hover {
-            background: #f8f9fa;
+            background: #f8fafc;
             transform: translateX(5px);
         }
 
         .ranking-table tbody tr.top-bidder {
-            background: linear-gradient(90deg, #e8f5e9, #ffffff);
-            border-left: 4px solid #2ecc71;
+            background: linear-gradient(90deg, #d1fae5, #ffffff);
+            border-left: 4px solid #10b981;
         }
 
         .ranking-table tbody tr.current-user {
-            background: linear-gradient(90deg, #e3f2fd, #ffffff);
-            border-left: 4px solid #3498db;
+            background: linear-gradient(90deg, #eff6ff, #ffffff);
+            border-left: 4px solid #1e3a8a;
         }
 
         .ranking-table tbody tr.top-bidder.current-user {
-            background: linear-gradient(90deg, #e8f5e9, #e3f2fd);
-            border-left: 4px solid #f39c12;
+            background: linear-gradient(90deg, #d1fae5, #eff6ff);
+            border-left: 4px solid #f59e0b;
         }
 
         .ranking-table td {
             padding: 20px;
-            color: #2c3e50;
+            color: #1e293b;
         }
 
         .rank-cell {
             width: 70px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 800;
             font-size: 20px;
         }
 
         .rank-1 {
-            color: #f39c12;
-            background: #fff3cd;
+            color: white;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
             padding: 8px 16px;
             border-radius: 20px;
             display: inline-block;
             min-width: 50px;
+            font-weight: 700;
         }
 
         .rank-2 {
-            color: #95a5a6;
-            background: #f8f9fa;
+            color: white;
+            background: linear-gradient(135deg, #94a3b8, #64748b);
             padding: 8px 16px;
             border-radius: 20px;
             display: inline-block;
             min-width: 50px;
+            font-weight: 700;
         }
 
         .rank-3 {
-            color: #d35400;
-            background: #ffeaa7;
+            color: white;
+            background: linear-gradient(135deg, #f97316, #ea580c);
             padding: 8px 16px;
             border-radius: 20px;
             display: inline-block;
             min-width: 50px;
+            font-weight: 700;
         }
 
         .user-cell {
@@ -757,15 +745,15 @@
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            background: #3498db;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
+            font-weight: 700;
             flex-shrink: 0;
             border: 2px solid white;
-            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
         .user-info {
@@ -774,61 +762,50 @@
         }
 
         .user-name {
-            font-weight: bold;
-            color: #2c3e50;
+            font-weight: 700;
+            color: #1e293b;
             font-size: 16px;
         }
 
         .user-name.you {
-            color: #3498db;
+            color: #1e3a8a;
             position: relative;
         }
 
         .user-name.you::after {
             content: ' (You)';
-            color: #7f8c8d;
+            color: #64748b;
             font-size: 14px;
         }
 
         .user-id {
             font-size: 12px;
-            color: #7f8c8d;
+            color: #64748b;
             font-family: 'Courier New', monospace;
         }
 
         .bid-amount-cell {
-            font-weight: bold;
-            color: #27ae60;
+            font-weight: 800;
+            color: #059669;
             font-size: 18px;
         }
 
         .bid-count-cell {
             text-align: center;
-            font-weight: bold;
+            font-weight: 800;
             font-size: 16px;
-            color: #2c3e50;
+            color: #1e293b;
         }
 
         /* Empty State */
         .empty-state {
             text-align: center;
             padding: 80px 30px;
-            color: #7f8c8d;
+            color: #64748b;
             background: white;
-            border-radius: 15px;
+            border-radius: 12px;
             margin: 20px 0;
-        }
-
-        .empty-state i {
-            font-size: 72px;
-            margin-bottom: 25px;
-            opacity: 0.2;
-        }
-
-        .empty-state h3 {
-            margin-bottom: 15px;
-            color: #2c3e50;
-            font-size: 24px;
+            border: 1px dashed #cbd5e1;
         }
 
         /* Notification */
@@ -837,35 +814,30 @@
             top: 30px;
             right: 30px;
             background: white;
-            color: #2c3e50;
+            color: #1e293b;
             padding: 25px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(30, 58, 138, 0.15);
             z-index: 1000;
             animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
             display: flex;
             align-items: center;
             gap: 20px;
             max-width: 450px;
-            border-left: 6px solid #3498db;
+            border-left: 5px solid #1e3a8a;
             transform-origin: top right;
         }
 
         .notification.success {
-            border-left-color: #2ecc71;
+            border-left-color: #10b981;
         }
 
         .notification.error {
-            border-left-color: #e74c3c;
+            border-left-color: #ef4444;
         }
 
         .notification.warning {
-            border-left-color: #f39c12;
-        }
-
-        .notification-info {
-            font-size: 28px;
-            flex-shrink: 0;
+            border-left-color: #f59e0b;
         }
 
         @keyframes slideInRight {
@@ -883,17 +855,19 @@
         .loading {
             text-align: center;
             padding: 80px 30px;
-            color: #7f8c8d;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 20px;
+            color: #64748b;
+            background: white;
+            border-radius: 16px;
             margin: 30px 0;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border: 1px solid #e2e8f0;
         }
 
         .spinner {
             width: 60px;
             height: 60px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #3498db;
+            border: 5px solid #e2e8f0;
+            border-top: 5px solid #1e3a8a;
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 25px;
@@ -910,9 +884,9 @@
             align-items: center;
             gap: 10px;
             font-size: 14px;
-            color: #2ecc71;
+            color: #10b981;
             margin-left: 15px;
-            background: rgba(46, 204, 113, 0.1);
+            background: rgba(16, 185, 129, 0.1);
             padding: 6px 12px;
             border-radius: 15px;
         }
@@ -920,7 +894,7 @@
         .live-dot {
             width: 10px;
             height: 10px;
-            background: #2ecc71;
+            background: #10b981;
             border-radius: 50%;
             animation: pulse 1.5s infinite;
         }
@@ -1000,36 +974,39 @@
 
         /* Rank Crown */
         .rank-crown {
-            color: #f39c12;
+            color: #f59e0b;
             font-size: 20px;
             margin-left: 5px;
         }
 
         /* Balance Warning */
         .balance-warning {
-            color: #e74c3c;
+            color: #ef4444;
             font-size: 14px;
             margin-top: 8px;
             display: flex;
             align-items: center;
             gap: 5px;
+            font-weight: 600;
         }
 
         /* Recent Activity */
         .recent-activity {
             background: white;
             padding: 20px;
-            border-radius: 15px;
+            border-radius: 12px;
             margin-top: 30px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
         }
 
         .recent-activity h4 {
-            color: #2c3e50;
+            color: #1e3a8a;
             margin-bottom: 15px;
             display: flex;
             align-items: center;
             gap: 10px;
+            font-weight: 700;
         }
 
         .activity-item {
@@ -1037,7 +1014,7 @@
             align-items: center;
             gap: 10px;
             padding: 10px 0;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .activity-item:last-child {
@@ -1048,50 +1025,129 @@
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background: #3498db;
+            background: linear-gradient(135deg, #1e3a8a, #3b82f6);
             color: white;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 12px;
-            font-weight: bold;
+            font-weight: 700;
+            flex-shrink: 0;
         }
 
         .activity-text {
             flex: 1;
             font-size: 14px;
+            color: #1e293b;
         }
 
         .activity-time {
             font-size: 12px;
-            color: #7f8c8d;
+            color: #64748b;
+            flex-shrink: 0;
+        }
+
+        /* Loading Animation */
+        .loading-pulse {
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Registration Prompt */
+        .registration-prompt {
+            background: white;
+            padding: 50px;
+            border-radius: 16px;
+            text-align: center;
+            margin-top: 50px;
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.08);
+            border-top: 4px solid #10b981;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .registration-prompt h2 {
+            color: #1e3a8a;
+            margin-bottom: 20px;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .registration-prompt p {
+            color: #64748b;
+            margin-bottom: 40px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .prompt-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .prompt-btn {
+            padding: 18px 40px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 18px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .prompt-btn-primary {
+            background: #1e3a8a;
+            color: white;
+            border: 2px solid #1e3a8a;
+        }
+
+        .prompt-btn-primary:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.3);
+        }
+
+        .prompt-btn-secondary {
+            background: white;
+            color: #1e3a8a;
+            border: 2px solid #1e3a8a;
+        }
+
+        .prompt-btn-secondary:hover {
+            background: #f1f5f9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(30, 58, 138, 0.1);
         }
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
     <div class="container">
         <!-- Header -->
         <header class="header">
             <div class="header-left">
-                <h1 id="welcomeMessage">🎯 Live Auction Bidding</h1>
+                <h1><i class="fas fa-gavel"></i> Live Auction Bidding</h1>
                 <p id="userStatusMessage">Loading your auction session...</p>
             </div>
             <div class="nav-links">
-                <a href="admin-dashboard.html" class="nav-btn">Admin Dashboard</a>
-                <a href="register.html" class="nav-btn">Register New User</a>
-                <a href="auction-bidding.html" class="nav-btn active">Live Bidding</a>
-                <button class="nav-btn logout" onclick="logoutUser()">🚪 Logout</button>
+                <a href="admin-dashboard.html" class="nav-btn"><i class="fas fa-cogs"></i> Admin Dashboard</a>
+                <a href="register.html" class="nav-btn"><i class="fas fa-user-plus"></i> Register New User</a>
+                <a href="user-registration.html" class="nav-btn"><i class="fas fa-users"></i> User Management</a>
+                <a href="auction-bidding.html" class="nav-btn active"><i class="fas fa-bolt"></i> Live Bidding</a>
+                <button class="nav-btn logout" onclick="logoutUser()"><i class="fas fa-sign-out-alt"></i> Logout</button>
             </div>
         </header>
 
         <!-- Loading State -->
         <div id="loadingState" class="loading">
             <div class="spinner"></div>
-            <h3>🎯 Loading Auction Session...</h3>
+            <h3><i class="fas fa-spinner fa-spin"></i> Loading Auction Session...</h3>
             <p>Please wait while we prepare your bidding interface</p>
-            <div style="margin-top: 30px; color: #95a5a6;">
-                <div style="font-size: 14px; margin-bottom: 5px;">🔄 Connecting to live auction...</div>
-                <div style="font-size: 14px;">📊 Loading user data...</div>
+            <div style="margin-top: 30px; color: #94a3b8;">
+                <div style="font-size: 14px; margin-bottom: 5px;"><i class="fas fa-sync-alt loading-pulse"></i> Connecting to live auction...</div>
+                <div style="font-size: 14px;"><i class="fas fa-database loading-pulse"></i> Loading user data...</div>
             </div>
         </div>
 
@@ -1102,7 +1158,7 @@
 
         <!-- Auction Status Banner -->
         <div id="auctionStatusBanner" class="auction-status-banner inactive" style="display: none;">
-            Loading auction status...
+            <i class="fas fa-info-circle"></i> Loading auction status...
         </div>
 
         <!-- Main Bidding Interface -->
@@ -1111,7 +1167,7 @@
                 <!-- Live Auction Section -->
                 <div class="live-auction-section">
                     <h2 class="section-title">
-                        Live Auction
+                        <i class="fas fa-gavel"></i> Live Auction
                         <span class="live-badge" id="liveBadge" style="display: none;">
                             <span class="live-dot"></span> LIVE
                         </span>
@@ -1133,10 +1189,10 @@
                     </div>
                     
                     <!-- Quick Bid Section -->
-                    <h3 style="color: #2c3e50; margin: 40px 0 25px 0; font-size: 24px; display: flex; align-items: center; gap: 10px;">
-                        <span>⚡</span> Quick Bid Buttons
+                    <h3 style="color: #1e3a8a; margin: 40px 0 25px 0; font-size: 24px; display: flex; align-items: center; gap: 10px;">
+                        <i class="fas fa-bolt"></i> Quick Bid Buttons
                     </h3>
-                    <p style="color: #666; margin-bottom: 30px; font-size: 16px;">
+                    <p style="color: #64748b; margin-bottom: 30px; font-size: 16px;">
                         Click on any button to instantly place your bid. Amount will be added to current bid.
                     </p>
                     
@@ -1161,7 +1217,7 @@
                     
                     <!-- Custom Bid Section -->
                     <div class="custom-bid-section">
-                        <h3>🎯 Custom Bid Amount</h3>
+                        <h3><i class="fas fa-edit"></i> Custom Bid Amount</h3>
                         <div class="custom-input-group">
                             <div class="currency-symbol">₹</div>
                             <input type="number" 
@@ -1171,15 +1227,15 @@
                                    min="100"
                                    step="100">
                             <button class="place-custom-bid-btn" onclick="placeCustomBid()" id="placeCustomBidBtn">
-                                <span>📤</span> Place Custom Bid
+                                <i class="fas fa-paper-plane"></i> Place Custom Bid
                             </button>
                         </div>
-                        <div style="margin-top: 15px; font-size: 14px; color: #7f8c8d; display: flex; justify-content: space-between;">
+                        <div style="margin-top: 15px; font-size: 14px; color: #64748b; display: flex; justify-content: space-between;">
                             <div>
-                                Minimum increase: <span id="minBidIncrease" style="font-weight: bold; color: #2c3e50;">₹ 500</span>
+                                Minimum increase: <span id="minBidIncrease" style="font-weight: 700; color: #1e3a8a;">₹ 500</span>
                             </div>
                             <div id="balanceWarning" class="balance-warning" style="display: none;">
-                                ⚠️ Insufficient balance
+                                <i class="fas fa-exclamation-triangle"></i> Insufficient balance
                             </div>
                         </div>
                     </div>
@@ -1187,36 +1243,36 @@
                 
                 <!-- User Stats Sidebar -->
                 <div class="user-stats-sidebar">
-                    <h2 class="section-title">📊 Your Stats</h2>
+                    <h2 class="section-title"><i class="fas fa-chart-bar"></i> Your Stats</h2>
                     
                     <div class="user-stat-card">
-                        <h3><span>💰</span> Current Balance</h3>
+                        <h3><i class="fas fa-wallet"></i> Current Balance</h3>
                         <div class="value highlight" id="userBalanceStat">₹ 0</div>
                     </div>
                     
                     <div class="user-stat-card">
-                        <h3><span>🎯</span> Your Last Bid</h3>
+                        <h3><i class="fas fa-bullseye"></i> Your Last Bid</h3>
                         <div class="value" id="userLastBidStat">₹ 0</div>
                     </div>
                     
                     <div class="user-stat-card">
-                        <h3><span>📈</span> Bids Placed</h3>
+                        <h3><i class="fas fa-chart-line"></i> Bids Placed</h3>
                         <div class="value" id="userBidCountStat">0</div>
                     </div>
                     
                     <div class="user-stat-card">
-                        <h3><span>⬆️</span> Next Minimum Bid</h3>
+                        <h3><i class="fas fa-arrow-up"></i> Next Minimum Bid</h3>
                         <div class="value highlight" id="nextMinimumBidStat">₹ 500</div>
                     </div>
                     
                     <div class="user-stat-card">
-                        <h3><span>🏆</span> Your Current Rank</h3>
+                        <h3><i class="fas fa-trophy"></i> Your Current Rank</h3>
                         <div class="value" id="userRankStat">-</div>
                     </div>
 
                     <!-- Recent Activity -->
                     <div class="recent-activity">
-                        <h4><span>🔄</span> Recent Activity</h4>
+                        <h4><i class="fas fa-history"></i> Recent Activity</h4>
                         <div id="recentActivityList">
                             <div class="activity-item">
                                 <div class="activity-avatar">Y</div>
@@ -1232,10 +1288,10 @@
             <div class="bidders-ranking">
                 <div class="ranking-header">
                     <h2 class="ranking-title">
-                        <span>🏆</span> Live Bidders Ranking
+                        <i class="fas fa-trophy"></i> Live Bidders Ranking
                     </h2>
                     <button class="refresh-btn" onclick="loadBiddersRanking()">
-                        <span>🔄</span> Refresh Ranking
+                        <i class="fas fa-sync-alt"></i> Refresh Ranking
                     </button>
                 </div>
                 
@@ -1256,31 +1312,33 @@
                     </table>
                     
                     <div class="empty-state" id="emptyRankingState" style="display: none;">
-                        <div>📊</div>
-                        <h3>No Bids Yet</h3>
-                        <p>Be the first to place a bid and top the leaderboard!</p>
+                        <div style="font-size: 48px; margin-bottom: 20px; opacity: 0.3;">
+                            <i class="fas fa-trophy"></i>
+                        </div>
+                        <h3 style="color: #475569; margin-bottom: 10px;">No Bids Yet</h3>
+                        <p style="color: #64748b;">Be the first to place a bid and top the leaderboard!</p>
                     </div>
                 </div>
             </div>
         </div>
         
         <!-- Registration Prompt -->
-        <div id="registrationPrompt" style="display: none; text-align: center; margin-top: 50px;">
-            <div style="background: rgba(255, 255, 255, 0.95); padding: 50px; border-radius: 25px; box-shadow: 0 8px 32px rgba(0,0,0,0.1); max-width: 600px; margin: 0 auto;">
-                <div style="font-size: 80px; margin-bottom: 25px;">👤</div>
-                <h2 style="color: #2c3e50; margin-bottom: 20px; font-size: 32px;">User Not Registered</h2>
-                <p style="color: #7f8c8d; margin-bottom: 40px; font-size: 18px; line-height: 1.6;">
-                    You need to register a user account to participate in the live auction bidding.
-                    Registration is quick and you can start bidding immediately!
-                </p>
-                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
-                    <a href="register.html" style="padding: 18px 40px; background: linear-gradient(135deg, #3498db, #2980b9); color: white; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 18px; display: inline-block; transition: all 0.3s;">
-                        <span>➕</span> Register New User
-                    </a>
-                    <a href="admin-dashboard.html" style="padding: 18px 40px; background: #f8f9fa; color: #2c3e50; text-decoration: none; border-radius: 25px; font-weight: bold; font-size: 18px; display: inline-block; border: 2px solid #ddd; transition: all 0.3s;">
-                        <span>👑</span> View Admin Dashboard
-                    </a>
-                </div>
+        <div id="registrationPrompt" class="registration-prompt" style="display: none;">
+            <div style="font-size: 80px; margin-bottom: 25px; color: #1e3a8a;">
+                <i class="fas fa-user-circle"></i>
+            </div>
+            <h2>User Not Registered</h2>
+            <p>
+                You need to register a user account to participate in the live auction bidding.
+                Registration is quick and you can start bidding immediately!
+            </p>
+            <div class="prompt-buttons">
+                <a href="register.html" class="prompt-btn prompt-btn-primary">
+                    <i class="fas fa-user-plus"></i> Register New User
+                </a>
+                <a href="admin-dashboard.html" class="prompt-btn prompt-btn-secondary">
+                    <i class="fas fa-cogs"></i> View Admin Dashboard
+                </a>
             </div>
         </div>
     </div>
@@ -1357,8 +1415,8 @@
         // Get random color
         function getRandomColor() {
             const colors = [
-                '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
-                '#1abc9c', '#d35400', '#c0392b', '#16a085', '#8e44ad'
+                '#1e3a8a', '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b',
+                '#ef4444', '#ec4899', '#06b6d4', '#84cc16', '#f97316'
             ];
             return colors[Math.floor(Math.random() * colors.length)];
         }
@@ -1388,7 +1446,6 @@
             document.getElementById('auctionStatusBanner').style.display = 'none';
             
             // Update welcome message
-            document.getElementById('welcomeMessage').textContent = '🎯 Live Auction Bidding';
             document.getElementById('userStatusMessage').textContent = 'Register to start bidding';
         }
 
@@ -1404,7 +1461,6 @@
             updateUserInfoSection();
             
             // Update welcome message
-            document.getElementById('welcomeMessage').textContent = `🎯 Welcome, ${auctionState.currentUser.name}`;
             document.getElementById('userStatusMessage').textContent = 'Ready to place your bids!';
             
             // Update user stats
@@ -1422,7 +1478,7 @@
                         <h3>
                             ${auctionState.currentUser.name}
                             <span class="user-rank-badge" id="userRankBadge">
-                                <span>🏆</span> Rank: Loading...
+                                <i class="fas fa-trophy"></i> Rank: Loading...
                             </span>
                         </h3>
                         <div class="user-id">ID: ${auctionState.currentUser.id}</div>
@@ -1531,7 +1587,7 @@
             if (!auctionState.auctionData) {
                 // No auction data
                 document.getElementById('auctionStatusBanner').className = 'auction-status-banner warning';
-                document.getElementById('auctionStatusBanner').textContent = '⚠️ No auction created yet. Admin needs to start an auction first.';
+                document.getElementById('auctionStatusBanner').innerHTML = '<i class="fas fa-exclamation-triangle"></i> No auction created yet. Admin needs to start an auction first.';
                 document.getElementById('liveBadge').style.display = 'none';
                 
                 // Disable bid buttons
@@ -1546,11 +1602,11 @@
             const banner = document.getElementById('auctionStatusBanner');
             if (auctionState.isAuctionActive) {
                 banner.className = 'auction-status-banner';
-                banner.textContent = '🚀 Auction is LIVE! Place your bids now!';
+                banner.innerHTML = '<i class="fas fa-bolt"></i> Auction is LIVE! Place your bids now!';
                 document.getElementById('liveBadge').style.display = 'inline-flex';
             } else {
                 banner.className = 'auction-status-banner inactive';
-                banner.textContent = '⏹️ Auction is not active. Waiting for admin to start...';
+                banner.innerHTML = '<i class="fas fa-pause-circle"></i> Auction is not active. Waiting for admin to start...';
                 document.getElementById('liveBadge').style.display = 'none';
             }
             
@@ -1574,7 +1630,7 @@
                 const lastBid = auction.bids[auction.bids.length - 1];
                 const isOwnBid = lastBid.userId === auctionState.currentUser.id;
                 document.getElementById('currentBidderInfo').innerHTML = `
-                    ${isOwnBid ? '<span class="you">🎯 You are</span>' : '👤 ' + lastBid.userName + ' is'} currently winning
+                    ${isOwnBid ? '<span class="you"><i class="fas fa-crown"></i> You are</span>' : '<i class="fas fa-user"></i> ' + lastBid.userName + ' is'} currently winning
                     ${lastBid.increment > 0 ? `<br><small style="opacity: 0.8; font-size: 16px;">Increased by ${formatCurrency(lastBid.increment)}</small>` : ''}
                 `;
             } else {
@@ -1612,11 +1668,11 @@
             
             // Change color based on time
             if (hours > 0) {
-                timerElement.style.color = '#e74c3c';
+                timerElement.style.color = '#ef4444';
             } else if (minutes > 30) {
-                timerElement.style.color = '#f39c12';
+                timerElement.style.color = '#f59e0b';
             } else {
-                timerElement.style.color = '#2ecc71';
+                timerElement.style.color = '#10b981';
             }
         }
 
@@ -1765,7 +1821,6 @@
 
         // Play bid sound
         function playBidSound() {
-            // Create a simple beep sound
             try {
                 const audioContext = new (window.AudioContext || window.webkitAudioContext)();
                 const oscillator = audioContext.createOscillator();
@@ -1978,7 +2033,7 @@
                 tableBody.innerHTML = '';
                 if (emptyState) emptyState.style.display = 'block';
                 document.getElementById('userRankStat').textContent = '-';
-                document.getElementById('userRankBadge').innerHTML = '<span>🏆</span> Rank: -';
+                document.getElementById('userRankBadge').innerHTML = '<i class="fas fa-trophy"></i> Rank: -';
                 return;
             }
             
@@ -2042,11 +2097,11 @@
                     // Update rank badge
                     const rankBadge = document.getElementById('userRankBadge');
                     if (isTopBidder) {
-                        rankBadge.innerHTML = `<span>👑</span> Rank #${rank} (Top Bidder)`;
-                        rankBadge.style.background = 'linear-gradient(135deg, #f39c12, #e67e22)';
+                        rankBadge.innerHTML = `<i class="fas fa-crown"></i> Rank #${rank} (Top Bidder)`;
+                        rankBadge.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
                     } else {
-                        rankBadge.innerHTML = `<span>🏆</span> Rank #${rank}`;
-                        rankBadge.style.background = 'linear-gradient(135deg, #3498db, #2980b9)';
+                        rankBadge.innerHTML = `<i class="fas fa-trophy"></i> Rank #${rank}`;
+                        rankBadge.style.background = 'linear-gradient(135deg, #1e3a8a, #3b82f6)';
                     }
                 }
                 
@@ -2054,7 +2109,7 @@
                     <tr class="${isTopBidder ? 'top-bidder' : ''} ${isCurrentUser ? 'current-user' : ''}">
                         <td class="rank-cell">
                             <span class="rank-${rank}">
-                                ${rank === 1 ? '👑 ' : ''}#${rank}
+                                ${rank === 1 ? '<i class="fas fa-crown"></i> ' : ''}#${rank}
                             </span>
                         </td>
                         <td>
@@ -2089,8 +2144,8 @@
         // Get user color
         function getUserColor(userId) {
             const colors = [
-                '#3498db', '#e74c3c', '#2ecc71', '#f39c12', '#9b59b6',
-                '#1abc9c', '#d35400', '#c0392b', '#16a085', '#8e44ad'
+                '#1e3a8a', '#3b82f6', '#8b5cf6', '#10b981', '#f59e0b',
+                '#ef4444', '#ec4899', '#06b6d4', '#84cc16', '#f97316'
             ];
             // Generate consistent color based on user ID
             const hash = userId.split('').reduce((acc, char) => {
@@ -2133,11 +2188,17 @@
         function showNotification(message, type = 'info') {
             const notification = document.createElement('div');
             notification.className = `notification ${type}`;
+            
+            let icon = 'info-circle';
+            if (type === 'success') icon = 'check-circle';
+            else if (type === 'error') icon = 'exclamation-circle';
+            else if (type === 'warning') icon = 'exclamation-triangle';
+            
             notification.innerHTML = `
-                <div class="notification-info">
-                    ${type === 'success' ? '✅' : type === 'error' ? '❌' : type === 'warning' ? '⚠️' : 'ℹ️'}
+                <div style="font-size: 20px;">
+                    <i class="fas fa-${icon}"></i>
                 </div>
-                <div>${message}</div>
+                <div style="flex: 1;">${message}</div>
             `;
             
             document.body.appendChild(notification);
@@ -2147,6 +2208,51 @@
                 setTimeout(() => notification.remove(), 400);
             }, 4000);
         }
+
+        // Generate demo data for testing
+        function generateDemoData() {
+            if (!localStorage.getItem('auctionState')) {
+                const demoAuction = {
+                    auction: {
+                        status: 'active',
+                        currentAmount: 50000,
+                        bids: [
+                            {
+                                id: 'BID001',
+                                userId: 'USR001',
+                                userName: 'Demo User',
+                                amount: 50000,
+                                timestamp: new Date().toISOString(),
+                                increment: 5000
+                            }
+                        ],
+                        users: new Set(['USR001'])
+                    },
+                    startTime: new Date().toISOString()
+                };
+                localStorage.setItem('auctionState', JSON.stringify(demoAuction));
+            }
+            
+            if (!localStorage.getItem('biddingUsers')) {
+                const demoUsers = {
+                    users: [
+                        {
+                            id: 'USR001',
+                            name: 'Demo User',
+                            balance: 100000,
+                            status: 'active',
+                            bidsPlaced: 1,
+                            lastBid: 50000,
+                            avatarColor: '#1e3a8a'
+                        }
+                    ]
+                };
+                localStorage.setItem('biddingUsers', JSON.stringify(demoUsers));
+            }
+        }
+
+        // Uncomment the line below to generate demo data for testing
+        // generateDemoData();
     </script>
 </body>
 </html>
